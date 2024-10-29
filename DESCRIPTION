@@ -17,3 +17,5 @@ Imports:
     stringr,
     terra,
     vapour
+URL: https://github.com/mdsumner/idt
+BugReports: https://github.com/mdsumner/idt/issues
