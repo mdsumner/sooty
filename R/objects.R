@@ -21,7 +21,7 @@
     files
 }
 
-
+#' @export
 oisstfiles <- function(objects = NULL) {
 
   if (missing(objects)) objects <- .objects()
@@ -35,8 +35,8 @@ oisstfiles <- function(objects = NULL) {
     dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) |>  dplyr::select(.data$date, .data$source, .data$Bucket, .data$Key, .data$protocol)
 }
 
-
-readoisst <- function(date, gridspec = NULL, ...) {
+#' @export
+readoisst <- function(date, gridspec = NULL, ..., latest = TRUE) {
 
   ## if we open with GDAL VRT (vapour_vrt or vrt://) we get full wrap on this 0-360 source for projected grids or rast() -180,180,-90,90 gridspec
   varname <- "" # "sst"
@@ -44,7 +44,9 @@ readoisst <- function(date, gridspec = NULL, ...) {
     terra::project(terra::rast(.x, varname), gridspec, by_util = TRUE)
   }
   files <- oisstfiles()
-  if (missing(date)) date <- max(files$date)
+  if (missing(date)) {
+     if (latest) date <- max(files$date) else date <- min(files$date)
+  }
   ssf <- findInterval(date, files$date)
 
   files <- files[ssf, ]
@@ -58,5 +60,6 @@ readoisst <- function(date, gridspec = NULL, ...) {
   out <- terra::rast(files$source, varname)
 
   }
+  terra::time(out) <- files$date
   out
 }
