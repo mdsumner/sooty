@@ -13,3 +13,4 @@
   Sys.setenv("GDAL_NUM_THREADS" = "12")
 }
 
+`%||%` <- function (x, y) if (is.null(x)) y else x

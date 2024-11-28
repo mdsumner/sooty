@@ -8,9 +8,10 @@
 }
 .findfiles <- function (pattern, objects = NULL, ...)
 {
-    if (is.null(objects)) objects <- .objects()
+    objects <- objects %||% .objects()
+    files <- objects
     for (pattern0 in pattern) {
-        files <- dplyr::filter(objects, stringr::str_detect(.data$Key,
+        files <- dplyr::filter(files, stringr::str_detect(.data$Key,
             pattern0))
         if (nrow(files) < 1)
             stop("no files found")
