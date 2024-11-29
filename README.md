@@ -55,8 +55,13 @@ range(files$date)
 #> [1] "1978-10-26 UTC" "2024-11-27 UTC"
 range(diff(files$date))  ## there are some gaps, it's every two days to start and some are missing
 #> Time differences in days
-#> [1] 1 7
-## and some won't work, to be fixed soon
+#> [1]  1 42
+
+diff(range(files$date))  ## the number of potential data days
+#> Time difference of 16834 days
+
+nrow(files)  ## the actual number of data days
+#> [1] 15178
 ```
 
 This is a very experimental begin at replacing

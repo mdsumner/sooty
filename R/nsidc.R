@@ -18,7 +18,7 @@
 #' ## but please note these require earthdata credentials set (WIP)
 #' ## e.g. terra::rast(dsn[1])  ## variable name is, um variable
 nsidc25kmSfiles <- function() {
-  files <- .curated_files("NSIDC_SEAICE_PS_S25km")
+  files <- .curated_files("NSIDC_SEAICE_PS_S25km")[-.badnc(), ]  ## FIXME see issue #2
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$source), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) |>  dplyr::select("date", "source", "Bucket", "Key", "protocol")
 
@@ -26,7 +26,7 @@ nsidc25kmSfiles <- function() {
 
 #' @name nsidc25kmSfiles
 nsidc25kmNfiles <- function() {
-  files <- .curated_files("NSIDC_SEAICE_PS_N25km")
+  files <- .curated_files("NSIDC_SEAICE_PS_N25km")[-.badnc(), ]  ## FIXME see issue #2
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$source), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) |>  dplyr::select("date", "source", "Bucket", "Key", "protocol")
 
