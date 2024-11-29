@@ -1,6 +1,6 @@
 Package: idt
 Title: What the Package Does (One Line, Title Case)
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person("Michael D.", "Sumner", , "mdsumner@gmail.com", role = c("aut", "cre")), 
     person(given = "Nicholas", family = "Tierney", role = c("ctb")))
@@ -20,3 +20,6 @@ Imports:
     vapour
 URL: https://github.com/mdsumner/idt
 BugReports: https://github.com/mdsumner/idt/issues
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3

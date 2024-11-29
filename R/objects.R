@@ -1,3 +1,4 @@
+#' @importFrom arrow s3_bucket read_parquet
 .objects <- function() {
   bucket <- arrow::s3_bucket("idea-objects", endpoint_override= "https://projects.pawsey.org.au", region = "")
   arrow::read_parquet(bucket$OpenInputFile("idea-objects.parquet"))
@@ -18,10 +19,10 @@
 ##'SEALEVEL_GLO_PHY_L4', 'NSIDC_SEAICE_PS_S25km', 'NSIDC_SEAICE_PS_N25km', 'oisst-avhrr-v02r01'
 ##'
 ##'
-  unique(idt:::.curated_objects()$Dataset)
+  unique(.curated_objects()$Dataset)
 }
 .fileobjects <- function() {
-  objects() |> dplyr::mutate(fullname = sprintf("/vsis3/%s/%s", Bucket, Key))
+  objects() |> dplyr::mutate(fullname = sprintf("/vsis3/%s/%s", .data$Bucket, .data$Key))
 }
 .findfiles <- function (pattern, objects = NULL, ...)
 {
@@ -35,14 +36,18 @@
     }
 
     protocol <- "/vsis3"
-    files <- dplyr::transmute(files, source = sprintf("%s/%s/%s", protocol, Bucket, Key), Bucket, Key, protocol = protocol)
-    files
+      files$source <- sprintf("%s/%s/%s", files$protocol, files$Bucket, files$Key)
+  files[c("date", "source", "Bucket", "Key", "protocol")]
 }
 
 .curated_files <- function(dataset) {
-  files <- .curated_objects() |> dplyr::filter(Dataset == dataset)
-  protocol <- "/vsis3"
-  dplyr::transmute(files, source = sprintf("%s/%s/%s", protocol, Bucket, Key), Bucket, Key, protocol = protocol)
+  files <- .curated_objects()
+  files <- files[files$Dataset == dataset, , drop = FALSE]
+  files$protocol <-  "/vsis3"
+  files$source <- sprintf("%s/%s/%s", files$protocol, files$Bucket, files$Key)
+
+  files[c("date", "source", "Bucket", "Key", "protocol")]
 }
+
 
 

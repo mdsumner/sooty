@@ -1,0 +1,70 @@
+---
+output: github_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# idt
+
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/mdsumner/idt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mdsumner/idt/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+The goal of idt is to read data of interest to Southern Ocean research. 
+
+There are data sets like the 25km resolution south polar stereographic sea ice concentration, available via `readnsidc25kmS()`: 
+
+```{r south}
+library(idt)
+readnsidc25kmS()
+```
+
+You can immediately see what range of dates is available by setting `latest = FALSE`: 
+
+
+```{r oldest}
+readnsidc25kmS(latest = FALSE)
+```
+
+And, explore exactly what source files are available with the full table: 
+
+```{r files}
+files <- nsidc25kmSfiles()
+
+range(files$date)
+range(diff(files$date))  ## there are some gaps, it's every two days to start and some are missing
+## and some won't work, to be fixed soon
+```
+
+This is a very experimental begin at replacing [raadtools](https://github.com/AustralianAntarcticDivision/raadtools) with a package anyone can use. 
+
+
+### Note for MacOS users (sadly)
+
+On MacOS the best GDAL we can get is 3.5.3 which is sadly too old for some of these NetCDF files (these can be worked around but I don't want to do that here). 
+
+At your own risk, we've had success installing GDAL latest. 
+
+```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && brew install gdal --HEAD
+```
+
+
+We haven't yet figured out what is the minimum version needed for this package to work well with all the datasets, or how to get a particular commit/tag/version (WIP). 
+
+
+## Code of Conduct
+  
+Please note that the idt project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/1/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+

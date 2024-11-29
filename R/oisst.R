@@ -17,7 +17,7 @@ oisstfiles <- function() {
 
   files <- .curated_files("oisst-avhrr-v02r01")
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$source), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
-  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) |>  dplyr::select(.data$date, .data$source, .data$Bucket, .data$Key, .data$protocol)
+  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) |>  dplyr::select("date", "source", "Bucket", "Key", "protocol")
 }
 
 #' Read Reynolds OISST (optimally interpolated sea surface temperature)
@@ -35,6 +35,8 @@ oisstfiles <- function() {
 #'
 #' @return terra SpatRaster object
 #' @export
+#' @importFrom terra rast
+#' @importFrom vapour vapour_vrt
 #' @examples
 #' readoisst("2000-04-01")
 #'
@@ -57,7 +59,7 @@ readoisst <- function(date, gridspec = NULL, ..., latest = TRUE) {
   if (!is.null(gridspec)) {
     out <- rast(lapply(files$source, .projectit, grid_specification = gridspec, varname = varname))
   } else {
-    out <- terra::rast(files$source, varname)
+    out <- rast(files$source, varname)
 
   }
   terra::time(out) <- files$date
