@@ -1,0 +1,102 @@
+---
+title: "Pawsey and bowerbird"
+format: html
+editor: visual
+---
+
+## Pawsey and the bowerbird library
+
+We have been working on putting key bowerbird data sets onto Pawsey object storage. With this we can prototype new tooling that is not dependent on our systems in AAD or Nectar.
+
+```{r include =FALSE}
+library(idt)  ## devtools::install_github("mdsumner/idt")
+files <- oisstfiles()
+```
+
+```{r files}
+print(files)
+
+as.list(tail(files, 1))
+```
+
+That set of files has a set of bucket/key pairs for request from Pawsey object store, the model is
+
+```
+<protocol>/<store>/<objectkey>
+```
+
+and in our example we are using a storage endpoint "https://projects.pawsey.org.au/".  
+
+We could move this bucket to other endpoints on NCI, Amazon, or local (AADC), and only worry about endpoint address. 
+
+```
+"/vsis3/idea-10.7289-v5sq8xb5/www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/202410/oisst-avhrr-v02r01.20241025_preliminary.nc"
+```
+
+We can substitute the object source address for other protocols. "/vsis3" is for GDAL, but we use "s3://" for other software. 
+
+The bucket name 'idea-10.7289-v5sq8xb5' corresponds to the bowerbird ID for this collection. 
+
+
+
+If we substitute out <protocol>/<buckct> for "https://" then we have the source URL for the original data. 
+
+## a raadtools-like from object storage
+
+We can build a tool like raadtools on this, useable from anywhere connected to the internet. 
+
+- `*files()` finds relevant files for a given data set and determines date and order
+- `read*()` uses that file list for user requests e.g. `readoisst("2022-01-02")`
+
+```{r raadlike}
+library(idt)  ## devtools::install_github("mdsumner/idt")
+oisstfiles()  ## used by a reader function
+
+readoisst()  ## gets the latest
+
+first <- readoisst(latest = FALSE) ## gets the first
+
+plot(first)
+```
+
+We can regrid.  Being able to specify target projections and to flip from 0-360 to -180,180 was enabled by contributions to GDAL.  
+
+```{r regrid}
+## specify a non 0-360 grid
+grd <- terra::rast(terra::ext(-180, 180, -90, 90), res = 0.25, crs = "EPSG:4326")
+
+plot(readoisst(gridspec = grd))
+
+grdp <- terra::rast(terra::ext(c(-1, 1, -1, 1) * 1e7), res = 25000, crs = "EPSG:3412")
+plot(readoisst(gridspec = grdp))
+
+```
+
+
+
+## xarray takes this further 
+
+With VirtualiZarr (aka "kerchunk") the xarray software creates a *virtual zarr* dataset from references to these netcdf files. 
+
+It literally records where the bytes are in each file, and create json or parquet tables with descriptions like this: 
+
+```
+... "sst\/4828.0.0.0":["s3:\/\/idea-10.7289-v5sq8xb5\/www.ncei.noaa.gov\/data\/sea-surface-temperature-optimum-interpolation\/v2.1\/access\/avhrr\/199411\/oisst-avhrr-v02r01.19941120.nc", 1011857,656669] " ...
+
+```
+We can open that right off the Pawsey "vzarr" bucket. 
+
+```{r python}
+library(reticulate)
+
+xarray <- import("xarray")
+
+ds <- xarray$open_dataset("https://projects.pawsey.org.au/vzarr/virt_oisst.json", engine = "kerchunk", chunks = dict(), 
+                    storage_options = dict("endpoint_url" =  "https://projects.pawsey.org.au",  "anon" = TRUE))
+
+print(ds)
+
+
+ds$sel(time = "2024-10-24")$sst
+
+```
