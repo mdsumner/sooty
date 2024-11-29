@@ -1,0 +1,36 @@
+#' @export
+oisstfiles <- function(objects = NULL) {
+
+  files <- .curated_files("oisst-avhrr-v02r01")
+  files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$source), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
+  dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) |>  dplyr::select(.data$date, .data$source, .data$Bucket, .data$Key, .data$protocol)
+}
+
+#' @export
+readoisst <- function(date, gridspec = NULL, ..., latest = TRUE) {
+
+  ## if we open with GDAL VRT (vapour_vrt or vrt://) we get full wrap on this 0-360 source for projected grids or rast() -180,180,-90,90 gridspec
+  varname <- "" # "sst"
+  .projectit <- function(.x) {
+    terra::project(terra::rast(.x, varname), gridspec, by_util = TRUE)
+  }
+  files <- oisstfiles()
+  if (missing(date)) {
+    if (latest) date <- max(files$date) else date <- min(files$date)
+  }
+  ssf <- findInterval(date, files$date)
+
+  files <- files[ssf, ]
+
+  ## not until GDAL 3.8 or whatever
+  #files$source <- sprintf("vrt://%s?sd_name=sst&a_srs=EPSG:4326", files$source)
+  files$source <- vapour::vapour_vrt(files$source, projection = "EPSG:4326", sds = "sst")
+  if (!is.null(gridspec)) {
+    out <- rast(lapply(files$source, .projectit))
+  } else {
+    out <- terra::rast(files$source, varname)
+
+  }
+  terra::time(out) <- files$date
+  out
+}
