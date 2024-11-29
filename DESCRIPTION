@@ -1,6 +1,6 @@
 Package: idt
 Title: What the Package Does (One Line, Title Case)
-Version: 0.0.2
+Version: 0.0.2.9001
 Authors@R: c(
     person("Michael D.", "Sumner", , "mdsumner@gmail.com", role = c("aut", "cre")), 
     person(given = "Nicholas", family = "Tierney", role = c("ctb")))
