@@ -21,11 +21,11 @@ readnsidc25kmS()
 #> resolution  : 25000, 25000  (x, y)
 #> extent      : -3950000, 3950000, -3950000, 4350000  (xmin, xmax, ymin, ymax)
 #> coord. ref. : NSIDC Sea Ice Polar Stereographic South (EPSG:3412) 
-#> source      : NSIDC0081_SEAICE_PS_S25km_20241127_v2.0.nc:F16_ICECON 
+#> source      : NSIDC0081_SEAICE_PS_S25km_20241130_v2.0.nc:F16_ICECON 
 #> varname     : F16_ICECON (Sea Ice Concentration) 
 #> name        :                 F16_ICECON 
 #> unit        : Fraction between 0.0 - 1.0 
-#> time (days) : 2024-11-27
+#> time (days) : 2024-11-30
 ```
 
 You can immediately see what range of dates is available by setting
@@ -52,21 +52,37 @@ table:
 files <- nsidc25kmSfiles()
 
 range(files$date)
-#> [1] "1978-10-26 UTC" "2024-11-27 UTC"
+#> [1] "1978-10-26 UTC" "2024-11-30 UTC"
 range(diff(files$date))  ## there are some gaps, it's every two days to start and some are missing
 #> Time differences in days
 #> [1]  1 42
 
 diff(range(files$date))  ## the number of potential data days
-#> Time difference of 16834 days
+#> Time difference of 16837 days
 
 nrow(files)  ## the actual number of data days
-#> [1] 15178
+#> [1] 15181
 ```
 
 This is a very experimental begin at replacing
 [raadtools](https://github.com/AustralianAntarcticDivision/raadtools)
 with a package anyone can use.
+
+Apart from north and south 25km sea ice we also have
+
+### Global SST 0.25 degree from 1982-current
+
+``` r
+readoisst()
+#> class       : SpatRaster 
+#> dimensions  : 720, 1440, 1  (nrow, ncol, nlyr)
+#> resolution  : 0.25, 0.25  (x, y)
+#> extent      : 0, 360, -90, 90  (xmin, xmax, ymin, ymax)
+#> coord. ref. : lon/lat WGS 84 (EPSG:4326) 
+#> source      : VRTDataset> 
+#> name        : VRTDataset> 
+#> time        : 2024-11-30 UTC
+```
 
 ### Note for MacOS users (sadly)
 

@@ -52,6 +52,15 @@ nrow(files)  ## the actual number of data days
 
 This is a very experimental begin at replacing [raadtools](https://github.com/AustralianAntarcticDivision/raadtools) with a package anyone can use. 
 
+Apart from north and south 25km sea ice we also have
+
+### Global SST 0.25 degree from 1982-current
+
+```{r sst}
+readoisst()
+```
+
+
 
 ### Note for MacOS users (sadly)
 

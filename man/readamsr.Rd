@@ -27,5 +27,5 @@ By default the data is returned on the native grid, here polar south stereograph
 for Atlantic-view (-180, 180) longlat.
 }
 \examples{
-readamsr("2000-04-01")
+readamsr("2020-04-01")
 }

@@ -37,7 +37,7 @@ amsrfiles <- function() {
 #' @return terra SpatRaster object
 #' @export
 #' @examples
-#' readamsr("2000-04-01")
+#' readamsr("2020-04-01")
 readamsr <- function(date, gridspec = NULL, ..., latest = TRUE) {
   varname <- 1
   files <- amsrfiles()
@@ -45,14 +45,18 @@ readamsr <- function(date, gridspec = NULL, ..., latest = TRUE) {
     if (latest) date <- max(files$date) else date <- min(files$date)
   } else {
     date <- as.POSIXct(date, tz = "UTC")
+
+    if (date > max(files$date) || date < min(files$date)) stop("date out of range")
   }
   ssf <- findInterval(date, files$date)
 
   files <- files[ssf, ]
-
+if (nrow(files) < 1) stop("date input is out of range")
   ## not until GDAL 3.8 or whatever
   #files$source <- sprintf("vrt://%s?sd_name=sst&a_srs=EPSG:4326", files$source)
   ##files$source <- vapour::vapour_vrt(files$source, projection = "EPSG:4326", sds = "sst")
+
+
   files$source <- vapour::vapour_vrt(files$source, options = c("-expand", "gray", "-scale", 0, 250, 0, 100 ))
   if (!is.null(gridspec)) {
     out <- rast(lapply(files$source, .projectit, grid_specification = gridspec, varname = varname))
