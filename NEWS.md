@@ -1,4 +1,6 @@
-# idt dev
+# sooty dev
+
+* Renamed package
 
 * Added 3.125km AMSR ice. 
 

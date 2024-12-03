@@ -22,7 +22,7 @@
   unique(.curated_objects()$Dataset)
 }
 .fileobjects <- function() {
-  objects() |> dplyr::mutate(fullname = sprintf("/vsis3/%s/%s", .data$Bucket, .data$Key))
+  .objects() |> dplyr::mutate(fullname = sprintf("/vsis3/%s/%s", .data$Bucket, .data$Key))
 }
 .findfiles <- function (pattern, objects = NULL, ...)
 {

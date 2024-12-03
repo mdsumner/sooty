@@ -1,20 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-# idt
-
 <!-- badges: start -->
 
-[![R-CMD-check](https://github.com/mdsumner/idt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mdsumner/idt/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/mdsumner/sooty/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mdsumner/sooty/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of idt is to read data of interest to Southern Ocean research.
+The goal of sooty is to read data of interest to Southern Ocean
+research.
 
 There are data sets like the 25km resolution south polar stereographic
 sea ice concentration, available via `readnsidc25kmS()`:
 
 ``` r
-library(idt)
+library(sooty)
 readnsidc25kmS()
 #> class       : SpatRaster 
 #> dimensions  : 332, 316, 1  (nrow, ncol, nlyr)
@@ -68,7 +66,20 @@ This is a very experimental begin at replacing
 [raadtools](https://github.com/AustralianAntarcticDivision/raadtools)
 with a package anyone can use.
 
-Apart from north and south 25km sea ice we also have
+Apart from north and south 25km sea ice we also have higher resolution
+sea ice data for the southern hemisphere.
+
+``` r
+readamsr()
+#> class       : SpatRaster 
+#> dimensions  : 2656, 2528, 1  (nrow, ncol, nlyr)
+#> resolution  : 3125, 3125  (x, y)
+#> extent      : -3950000, 3950000, -3950000, 4350000  (xmin, xmax, ymin, ymax)
+#> coord. ref. : WGS 84 / NSIDC Sea Ice Polar Stereographic South (EPSG:3976) 
+#> source      : VRTDataset> 
+#> name        : VRTDataset> 
+#> time        : 2024-11-30 UTC
+```
 
 ### Global SST 0.25 degree from 1982-current
 

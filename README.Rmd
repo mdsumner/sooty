@@ -15,18 +15,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-# idt
+
+
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/mdsumner/idt/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mdsumner/idt/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/mdsumner/sooty/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mdsumner/sooty/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of idt is to read data of interest to Southern Ocean research. 
+The goal of sooty is to read data of interest to Southern Ocean research. 
 
 There are data sets like the 25km resolution south polar stereographic sea ice concentration, available via `readnsidc25kmS()`: 
 
 ```{r south}
-library(idt)
+library(sooty)
 readnsidc25kmS()
 ```
 
@@ -52,7 +53,12 @@ nrow(files)  ## the actual number of data days
 
 This is a very experimental begin at replacing [raadtools](https://github.com/AustralianAntarcticDivision/raadtools) with a package anyone can use. 
 
-Apart from north and south 25km sea ice we also have
+Apart from north and south 25km sea ice we also have higher resolution sea ice data for the southern hemisphere. 
+
+```{r amsr}
+readamsr()
+
+```
 
 ### Global SST 0.25 degree from 1982-current
 

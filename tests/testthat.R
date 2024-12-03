@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(idt)
+library(sooty)
 
-test_check("idt")
+test_check("sooty")
