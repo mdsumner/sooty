@@ -69,8 +69,10 @@
 #'
 #' @examples
 #' if (interactive()) {
-#'   sooty_files()
+#'   sooty_files(FALSE)
 #' }
+#'
+#' sooty_files()
 sooty_files <- function(curated = TRUE) {
   if (curated) {
     return(.curated_files())

@@ -27,6 +27,8 @@ with 'https://'.
 }
 \examples{
 if (interactive()) {
-  sooty_files()
+  sooty_files(FALSE)
 }
+
+sooty_files()
 }
