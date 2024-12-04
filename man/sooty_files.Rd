@@ -24,6 +24,9 @@ constructed.
 
 The original publisher URI can be reconstructed by replacing the value of 'protocol' in 'source'
 with 'https://'.
+
+The public object URI can be reconstructed by replacing the value of 'protocol' in 'source' with
+'https://projects.pawsey.org.au'.
 }
 \examples{
 if (interactive()) {

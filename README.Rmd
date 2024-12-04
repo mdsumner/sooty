@@ -46,6 +46,9 @@ library(terra)
 file <- files$source[which.max(files$date) ]
 print(file)
 
+Sys.setenv(AWS_S3_ENDPOINT="projects.pawsey.org.au", 
+           AWS_NO_SIGN_REQUEST="YES",
+           GDAL_DISABLE_READDIR_ON_OPEN = "EMPTY_DIR")
 rast(file)
 ```
 

@@ -2,4 +2,3 @@
 
 export(sooty_files)
 importFrom(arrow,read_parquet)
-importFrom(arrow,s3_bucket)

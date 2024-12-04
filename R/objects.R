@@ -1,43 +1,29 @@
-#' @importFrom arrow s3_bucket read_parquet
+.read_tempfile <- function(curated = TRUE) {
+  #bucket <- arrow::s3_bucket("idea-objects", endpoint_override= "https://projects.pawsey.org.au", region = "")
+  #out <- arrow::read_parquet(bucket$OpenInputFile("idea-curated-objects.parquet"))
+
+  sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"
+  if (curated) sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-curated-objects.parquet"
+  tfile <- tempfile(fileext = ".parquet")
+  on.exit(unlink(tfile), add = TRUE)
+  err <- try(curl::curl_download(sourcefile, tfile), silent = TRUE)
+  if (inherits(err, "try-error")) stop("cannot download latest file list, curl download failed")
+  arrow::read_parquet(tfile)
+}
+#' @importFrom arrow  read_parquet
 .objects <- function() {
-  bucket <- arrow::s3_bucket("idea-objects", endpoint_override= "https://projects.pawsey.org.au", region = "")
-  arrow::read_parquet(bucket$OpenInputFile("idea-objects.parquet"))
+  .read_tempfile(FALSE)
 }
 .curated_objects <- function(ds  = NULL) {
-  bucket <- arrow::s3_bucket("idea-objects", endpoint_override= "https://projects.pawsey.org.au", region = "")
+  out <- .read_tempfile()
 
-  out <- arrow::read_parquet(bucket$OpenInputFile("idea-curated-objects.parquet"))
   if (!is.null(ds)) out <- dplyr::filter(out, .data$Dataset == ds)
   out
 }
 
-.curated_objects <- function() {
-  bucket <- arrow::s3_bucket("idea-objects", endpoint_override= "https://projects.pawsey.org.au", region = "")
-  arrow::read_parquet(bucket$OpenInputFile("idea-curated-objects.parquet"))
-}
-.datasets <- function() {
-##'SEALEVEL_GLO_PHY_L4', 'NSIDC_SEAICE_PS_S25km', 'NSIDC_SEAICE_PS_N25km', 'oisst-avhrr-v02r01'
-##'
-##'
-  unique(.curated_objects()$Dataset)
-}
+
 .fileobjects <- function() {
   .objects() |> dplyr::mutate(fullname = sprintf("/vsis3/%s/%s", .data$Bucket, .data$Key))
-}
-.findfiles <- function (pattern, objects = NULL, ...)
-{
-    files <- objects %||% .objects()
-
-    for (pattern0 in pattern) {
-        files <- dplyr::filter(files, stringr::str_detect(.data$Key,
-            pattern0))
-        if (nrow(files) < 1)
-            stop("no files found")
-    }
-
-    protocol <- "/vsis3"
-      files$source <- sprintf("%s/%s/%s", files$protocol, files$Bucket, files$Key)
-  files[c("date", "source", "Bucket", "Key", "protocol")]
 }
 
 .curated_files <- function(dataset) {
@@ -61,6 +47,9 @@
 #'
 #' The original publisher URI can be reconstructed by replacing the value of 'protocol' in 'source'
 #' with 'https://'.
+#'
+#' The public object URI can be reconstructed by replacing the value of 'protocol' in 'source' with
+#' 'https://projects.pawsey.org.au'.
 #'
 #' @param curated logical `TRUE` by default, set to `FALSE` to return raw object catalogue
 #'

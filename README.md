@@ -51,6 +51,9 @@ file <- files$source[which.max(files$date) ]
 print(file)
 #> [1] "/vsis3/idea-10.7289-v5sq8xb5/www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/202411/oisst-avhrr-v02r01.20241130_preliminary.nc"
 
+Sys.setenv(AWS_S3_ENDPOINT="projects.pawsey.org.au", 
+           AWS_NO_SIGN_REQUEST="YES",
+           GDAL_DISABLE_READDIR_ON_OPEN = "EMPTY_DIR")
 rast(file)
 #> class       : SpatRaster 
 #> dimensions  : 720, 1440, 4  (nrow, ncol, nlyr)
