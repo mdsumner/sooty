@@ -1,9 +1,8 @@
 # sooty 0.1.0 
 
-Second submission, fixed error on Debian by avoiding S3 (object storage connection). Modified
-DESCRIPTION to double quote publication titles. (other spelling notes are false-positives). 
+Third submission, fixed typo.
 
-Thank you. 
+Thanks! 
 
 ## R CMD check results
 
