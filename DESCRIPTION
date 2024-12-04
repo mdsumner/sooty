@@ -1,13 +1,17 @@
 Package: sooty
-Title: What the Package Does (One Line, Title Case)
-Version: 0.0.2.9002
+Title: List Data Sources for Southern Ocean Ecosystem Research
+Version: 0.1.0
 Authors@R: c(
-    person("Michael D.", "Sumner", , "mdsumner@gmail.com", role = c("aut", "cre")), 
-    person(given = "Nicholas", family = "Tierney", role = c("ctb")))
-Description: What the package does (one paragraph).
+    person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")))
+Description: Obtains lists of files of remote sensing collections for Southern Ocean surface 
+ properties. Commonly used data sources of sea surface temperature, sea ice concentration, and 
+ altimetry products such as sea surface height and sea surface currents are cached in object storage
+ on the Pawsey Supercomputing Research Centre facility. Functions to retreive these object storage
+ catalogues are provided. In future releases this package will include helpers to identify particular
+ data collections and target specific dates for earth observation data to be read and manipulated. 
 License: MIT + file LICENSE
 Encoding: UTF-8
-Language: es
+Language: en-US
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
@@ -15,11 +19,11 @@ Imports:
     cachem,
     dplyr,
     memoise,
-    stringr,
-    terra,
-    vapour
+    stringr
 URL: https://github.com/mdsumner/sooty
 BugReports: https://github.com/mdsumner/sooty/issues
 Suggests: 
+    curl,
+    spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

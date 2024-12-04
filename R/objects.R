@@ -42,12 +42,41 @@
 
 .curated_files <- function(dataset) {
   files <- .curated_objects()
-  files <- files[files$Dataset == dataset, , drop = FALSE]
+  if (!missing(dataset)) files <- files[files$Dataset == dataset, , drop = FALSE]
   files$protocol <-  "/vsis3"
   files$source <- sprintf("%s/%s/%s", files$protocol, files$Bucket, files$Key)
 
   files[c("date", "source", "Bucket", "Key", "protocol")]
 }
 
+#' Obtain object storage catalogues as a dataframe of file/object identifiers.
+#'
+#' The object (file) catalogue of available sources is stored in Parquet format on Pawsey
+#' object storage. This function retrieves the curated catalogue, or the raw catalogue.
+#'
+#' In the curated case, the returned data frame has columns 'date', 'source' which are the main
+#' useful fields, these describe the date of the data in the file, and its full URI (Uniform Resource Identifier) source on
+#' S3 object storage. There are also fields 'Bucket', 'Key', and 'protocol' from which 'source' is
+#' constructed.
+#'
+#' The original publisher URI can be reconstructed by replacing the value of 'protocol' in 'source'
+#' with 'https://'.
+#'
+#' @param curated logical `TRUE` by default, set to `FALSE` to return raw object catalogue
+#'
+#' @return a data frame, see details
+#' @export
+#'
+#' @examples
+#' if (interactive()) {
+#'   sooty_files()
+#' }
+sooty_files <- function(curated = TRUE) {
+  if (curated) {
+    return(.curated_files())
+  } else {
+    return(.fileobjects())
+  }
+}
 
 
