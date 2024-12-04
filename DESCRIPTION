@@ -1,5 +1,5 @@
 Package: sooty
-Title: List Data Sources for Southern Ocean Ecosystem Research
+Title: Data Source Catalogues Online for Southern Ocean Ecosystem Research
 Version: 0.1.0
 Authors@R: c(
     person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")))
@@ -7,8 +7,12 @@ Description: Obtains lists of files of remote sensing collections for Southern O
  properties. Commonly used data sources of sea surface temperature, sea ice concentration, and 
  altimetry products such as sea surface height and sea surface currents are cached in object storage
  on the Pawsey Supercomputing Research Centre facility. Functions to retreive these object storage
- catalogues are provided. In future releases this package will include helpers to identify particular
- data collections and target specific dates for earth observation data to be read and manipulated. 
+ catalogues are provided. The catalogues include complete collections of datasets Reynolds et al. (2008) 
+ 'NOAA Optimum Interpolation Sea Surface Temperature (OISST) Analysis, Version 2.1' <doi:10.7289/V5SQ8XB5>, 
+ Spreen et al. (2008) 'Artist AMSR-E sea ice concentration' <doi:10.1029/2005JC003384>. 
+ In future releases this package will include helpers to identify particular data collections and target 
+ specific dates for earth observation data to be read and manipulated, as well as helpers to retrieve
+ data set citation and provenance details. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-US
