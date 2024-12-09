@@ -26,6 +26,36 @@ knitr::opts_chunk$set(
 
 The goal of sooty is to read data of interest to Southern Ocean research. 
 
+
+
+At the moment we only return lists of files available in object storage, but future versions will provide direct access to the data in these files with helper functions
+defined here. 
+
+To see what files we have in object storage, use 
+
+```{r sooty}
+library(sooty)
+(files <- tibble::as_tibble(sooty_files()))
+```
+
+These are all directly useable source identifiers that a GDAL-enabled package can read. 
+
+In time we will provide helpers to pick specific data sets and open data for a given date. 
+
+For now we only have manual handling, such as
+
+```{r terra}
+library(terra)
+file <- files$source[which.max(files$date) ]
+print(file)
+
+Sys.setenv(AWS_S3_ENDPOINT="projects.pawsey.org.au", 
+           AWS_NO_SIGN_REQUEST="YES",
+           GDAL_DISABLE_READDIR_ON_OPEN = "EMPTY_DIR")
+rast(file)
+```
+
+
 There are data sets like the 25km resolution south polar stereographic sea ice concentration, available via `readnsidc25kmS()`: 
 
 ```{r south}
