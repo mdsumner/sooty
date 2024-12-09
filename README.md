@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/mdsumner/sooty/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mdsumner/sooty/actions/workflows/R-CMD-check.yaml)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/sooty)](https://CRAN.R-project.org/package=sooty)
 <!-- badges: end -->
 
 The goal of sooty is to read data of interest to Southern Ocean
@@ -22,11 +24,11 @@ readnsidc25kmS()
 #> resolution  : 25000, 25000  (x, y)
 #> extent      : -3950000, 3950000, -3950000, 4350000  (xmin, xmax, ymin, ymax)
 #> coord. ref. : NSIDC Sea Ice Polar Stereographic South (EPSG:3412) 
-#> source      : NSIDC0081_SEAICE_PS_S25km_20241130_v2.0.nc:F16_ICECON 
+#> source      : NSIDC0081_SEAICE_PS_S25km_20241207_v2.0.nc:F16_ICECON 
 #> varname     : F16_ICECON (Sea Ice Concentration) 
 #> name        :                 F16_ICECON 
 #> unit        : Fraction between 0.0 - 1.0 
-#> time (days) : 2024-11-30
+#> time (days) : 2024-12-07
 ```
 
 You can immediately see what range of dates is available by setting
@@ -53,16 +55,16 @@ table:
 files <- nsidc25kmSfiles()
 
 range(files$date)
-#> [1] "1978-10-26 UTC" "2024-11-30 UTC"
+#> [1] "1978-10-26 UTC" "2024-12-07 UTC"
 range(diff(files$date))  ## there are some gaps, it's every two days to start and some are missing
 #> Time differences in days
 #> [1]  1 42
 
 diff(range(files$date))  ## the number of potential data days
-#> Time difference of 16837 days
+#> Time difference of 16844 days
 
 nrow(files)  ## the actual number of data days
-#> [1] 15181
+#> [1] 15188
 ```
 
 This is a very experimental begin at replacing
@@ -81,7 +83,7 @@ readamsr()
 #> coord. ref. : WGS 84 / NSIDC Sea Ice Polar Stereographic South (EPSG:3976) 
 #> source      : VRTDataset> 
 #> name        : VRTDataset> 
-#> time        : 2024-11-30 UTC
+#> time        : 2024-12-07 UTC
 ```
 
 ### Global SST 0.25 degree from 1982-current
@@ -95,7 +97,7 @@ readoisst()
 #> coord. ref. : lon/lat WGS 84 (EPSG:4326) 
 #> source      : VRTDataset> 
 #> name        : VRTDataset> 
-#> time        : 2024-11-30 UTC
+#> time        : 2024-12-07 UTC
 ```
 
 ### Note for MacOS users (sadly)
