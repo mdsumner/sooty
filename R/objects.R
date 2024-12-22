@@ -32,7 +32,7 @@
   files$protocol <-  "/vsis3"
   files$source <- sprintf("%s/%s/%s", files$protocol, files$Bucket, files$Key)
 
-  files[c("date", "source", "Bucket", "Key", "protocol")]
+  files[c("date", "source", "Bucket", "Key", "protocol", "Dataset")]
 }
 
 #' Obtain object storage catalogues as a dataframe of file/object identifiers.
