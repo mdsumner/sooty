@@ -15,7 +15,7 @@
 #' ## e.g. terra::rast(dsn[1], "sst")  ## can be "sst", "anom", "err", "ice"
 oisstfiles <- function() {
 
-  files <- .curated_files("oisst-avhrr-v02r01")
+  files <- .curated_files("oisst-tif")
   files <- dplyr::mutate(files, date = as.POSIXct(as.Date(stringr::str_extract(basename(.data$source), "[0-9]{8}"), "%Y%m%d"), tz = "UTC"))
   dplyr::arrange(dplyr::distinct(files, date, .keep_all = TRUE), date) |>  dplyr::select("date", "source", "Bucket", "Key", "protocol")
 }
@@ -42,7 +42,7 @@ oisstfiles <- function() {
 #'
 readoisst <- function(date, gridspec = NULL, ..., latest = TRUE) {
   ## if we open with GDAL VRT (vapour_vrt or vrt://) we get full wrap on this 0-360 source for projected grids or rast() -180,180,-90,90 gridspec
-  varname <- "sst"
+  #varname <- "sst"
   files <- oisstfiles()
   if (missing(date)) {
     if (latest) date <- max(files$date) else date <- min(files$date)
@@ -55,11 +55,12 @@ readoisst <- function(date, gridspec = NULL, ..., latest = TRUE) {
 
   ## not until GDAL 3.8 or whatever
   #files$source <- sprintf("vrt://%s?sd_name=sst&a_srs=EPSG:4326", files$source)
-  files$source <- vapour::vapour_vrt(files$source, projection = "EPSG:4326", sds = "sst")
+  ## not needed for the tifs
+  #files$source <- vapour::vapour_vrt(files$source, projection = "EPSG:4326", sds = "sst")
   if (!is.null(gridspec)) {
-    out <- rast(lapply(files$source, .projectit, grid_specification = gridspec, varname = varname))
+    out <- rast(lapply(files$source, .projectit, grid_specification = gridspec, varname = 0))
   } else {
-    out <- rast(files$source, varname)
+    out <- rast(files$source, 0)
 
   }
   terra::time(out) <- files$date
