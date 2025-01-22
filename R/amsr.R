@@ -57,15 +57,17 @@ if (nrow(files) < 1) stop("date input is out of range")
   ##files$source <- vapour::vapour_vrt(files$source, projection = "EPSG:4326", sds = "sst")
 
 
-  files$source <- vapour::vapour_vrt(files$source, options = c("-expand", "gray", "-scale", 0, 250, 0, 100 ))
+  files$source <- vapour::vapour_vrt(files$source, options = c("-a_nodata", 120))
+  op <- options(warn = -1)  ## lest we hear about path.expand
+  on.exit(options(op), add = TRUE)
   if (!is.null(gridspec)) {
     out <- rast(lapply(files$source, .projectit, grid_specification = gridspec, varname = varname))
   } else {
     out <- terra::rast(files$source, subds = varname)
-
   }
 
-
+  ## this and a_nodata (not scale/expand)
+  terra::coltab(out) <- NULL
   if (is.na(terra::time(out))) terra::time(out) <- files$date
   out
 }

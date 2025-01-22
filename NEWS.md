@@ -1,5 +1,7 @@
 # sooty dev
 
+* Fix scaling mistake for AMSR ice. 
+
 * Added 3.125km AMSR ice. 
 
 # sooty 0.1.0 
