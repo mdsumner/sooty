@@ -103,8 +103,20 @@ Sys.setenv("AWS_S3_ENDPOINT" = env[2])
 Sys.setenv("AWS_VIRTUAL_HOSTING" = env[3])
 ```
 
-That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentation from passive microwave at 25km resolution, by the National Snow and Ice Data Center. 
+That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentration from passive microwave at 25km resolution, by the National Snow and Ice Data Center. 
 
+
+## S7 object control
+
+We have an in-progress class for dataset handling. Create a 'dataset()' and set an id. 
+
+```{r object}
+ds <- dataset()
+ds@id <- "NSIDC_SEAICE_PS_S25km"
+ds
+
+ds@source
+```
 ### Note for MacOS users (sadly)
 
 On MacOS the best GDAL we can get is 3.5.3 which is sadly too old for some of these NetCDF files (these can be worked around but I don't want to do that here).  At best it looks like we might get an update soon: https://lists.osgeo.org/pipermail/gdal-dev/2025-February/060229.html
