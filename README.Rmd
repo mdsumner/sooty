@@ -85,6 +85,25 @@ nrow(files)  ## the actual number of data days
 This is a very experimental begin at replacing [raadtools](https://github.com/AustralianAntarcticDivision/raadtools) with a package anyone can use. 
 
 
+We can read from the datasets with a GDAL-ready package, such as terra. But note that we need to set a configuration first, and we need to unset it after,  this is WIP. 
+
+```{r}
+env <- c(Sys.getenv("AWS_NO_SIGN_REQUEST"), Sys.getenv("AWS_S3_ENDPOINT"), Sys.getenv("AWS_VIRTUAL_HOSTING"))
+
+Sys.setenv("AWS_NO_SIGN_REQUEST" = "YES")
+Sys.setenv("AWS_S3_ENDPOINT" = "projects.pawsey.org.au")
+Sys.setenv("AWS_VIRTUAL_HOSTING" = "FALSE")
+library(terra)
+(r <- rast(tail(icefiles$source, 1)))
+plot(r[[nlyr(r)]], main = format(max(icefiles$date)))
+
+
+Sys.setenv("AWS_NO_SIGN_REQUEST" = env[1])
+Sys.setenv("AWS_S3_ENDPOINT" = env[2])
+Sys.setenv("AWS_VIRTUAL_HOSTING" = env[3])
+```
+
+That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentation from passive microwave at 25km resolution, by the National Snow and Ice Data Center. 
 
 ### Note for MacOS users (sadly)
 

@@ -1,7 +1,10 @@
 # sooty dev
 
-* Removed memoization. 
+* Added an S7 object to set dataset id and retrieve files. 
 
+* Removed all read functionality. 
+
+* Removed memoization. 
 
 * Fix scaling mistake for AMSR ice. 
 

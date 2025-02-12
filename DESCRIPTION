@@ -1,13 +1,13 @@
 Package: sooty
 Title: Data Source Catalogues Online for Southern Ocean Ecosystem Research
-Version: 0.1.0.9005
+Version: 0.1.1.9000
 Authors@R: c(
     person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")))
 Description: Obtains lists of files of remote sensing collections for Southern Ocean surface 
  properties. Commonly used data sources of sea surface temperature, sea ice concentration, and 
  altimetry products such as sea surface height and sea surface currents are cached in object storage
- on the Pawsey Supercomputing Research Centre facility. Functions to retrieve these object storage
- catalogues are provided. The catalogues include complete collections of datasets Reynolds et al. (2008) 
+ on the Pawsey Supercomputing Research Centre facility. Patterns of working to retrieve data from these object storage
+ catalogues are described. The catalogues include complete collections of datasets Reynolds et al. (2008) 
  "NOAA Optimum Interpolation Sea Surface Temperature (OISST) Analysis, Version 2.1" <doi:10.7289/V5SQ8XB5>, 
  Spreen et al. (2008) "Artist Advanced Microwave Scanning Radiometer for Earth Observing System (AMSR-E) 
  sea ice concentration" <doi:10.1029/2005JC003384>. In future releases helpers will be added to identify 
@@ -23,7 +23,8 @@ RoxygenNote: 7.3.2
 Imports: 
     arrow,
     curl,
-    dplyr
+    dplyr,
+    S7
 URL: https://github.com/mdsumner/sooty
 BugReports: https://github.com/mdsumner/sooty/issues
 Suggests: 

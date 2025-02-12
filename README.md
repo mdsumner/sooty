@@ -127,6 +127,49 @@ This is a very experimental begin at replacing
 [raadtools](https://github.com/AustralianAntarcticDivision/raadtools)
 with a package anyone can use.
 
+We can read from the datasets with a GDAL-ready package, such as terra.
+But note that we need to set a configuration first, and we need to unset
+it after, this is WIP.
+
+``` r
+env <- c(Sys.getenv("AWS_NO_SIGN_REQUEST"), Sys.getenv("AWS_S3_ENDPOINT"), Sys.getenv("AWS_VIRTUAL_HOSTING"))
+
+Sys.setenv("AWS_NO_SIGN_REQUEST" = "YES")
+Sys.setenv("AWS_S3_ENDPOINT" = "projects.pawsey.org.au")
+Sys.setenv("AWS_VIRTUAL_HOSTING" = "FALSE")
+library(terra)
+(r <- rast(tail(icefiles$source, 1)))
+#> class       : SpatRaster 
+#> dimensions  : 332, 316, 3  (nrow, ncol, nlyr)
+#> resolution  : 25000, 25000  (x, y)
+#> extent      : -3950000, 3950000, -3950000, 4350000  (xmin, xmax, ymin, ymax)
+#> coord. ref. : NSIDC Sea Ice Polar Stereographic South (EPSG:3412) 
+#> sources     : NSIDC0081_SEAICE_PS_S25km_20250210_v2.0.nc:F16_ICECON  
+#>               NSIDC0081_SEAICE_PS_S25km_20250210_v2.0.nc:F17_ICECON  
+#>               NSIDC0081_SEAICE_PS_S25km_20250210_v2.0.nc:F18_ICECON  
+#> varnames    : F16_ICECON (Sea Ice Concentration) 
+#>               F17_ICECON (Sea Ice Concentration) 
+#>               F18_ICECON (Sea Ice Concentration) 
+#> names       :                 F16_ICECON,                 F17_ICECON,                 F18_ICECON 
+#> unit        : Fraction between 0.0 - 1.0, Fraction between 0.0 - 1.0, Fraction between 0.0 - 1.0 
+#> time (days) : 2025-02-10
+plot(r[[nlyr(r)]], main = format(max(icefiles$date)))
+```
+
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+
+``` r
+
+
+Sys.setenv("AWS_NO_SIGN_REQUEST" = env[1])
+Sys.setenv("AWS_S3_ENDPOINT" = env[2])
+Sys.setenv("AWS_VIRTUAL_HOSTING" = env[3])
+```
+
+That should be the state of the sea ice in the Southern Ocean at the
+latest available date, sea ice concentation from passive microwave at
+25km resolution, by the National Snow and Ice Data Center.
+
 ### Note for MacOS users (sadly)
 
 On MacOS the best GDAL we can get is 3.5.3 which is sadly too old for
