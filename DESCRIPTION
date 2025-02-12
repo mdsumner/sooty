@@ -1,6 +1,6 @@
 Package: sooty
 Title: Data Source Catalogues Online for Southern Ocean Ecosystem Research
-Version: 0.1.0.9003
+Version: 0.1.0.9004
 Authors@R: c(
     person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")))
 Description: Obtains lists of files of remote sensing collections for Southern Ocean surface 
@@ -24,7 +24,6 @@ Imports:
     arrow,
     cachem,
     dplyr,
-    memoise,
     stringr,
     terra,
     vapour

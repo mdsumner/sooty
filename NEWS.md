@@ -1,5 +1,8 @@
 # sooty dev
 
+* Removed memoization. 
+
+
 * Fix scaling mistake for AMSR ice. 
 
 * Added 3.125km AMSR ice. 
