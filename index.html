@@ -170,15 +170,15 @@
 <p>And, explore exactly what source files are available:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">files</span><span class="op">$</span><span class="va">date</span><span class="op">)</span><span class="op">)</span>  <span class="co">## there are some gaps, it's every two days to start and some are missing</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="va">icefiles</span><span class="op">$</span><span class="va">date</span><span class="op">)</span><span class="op">)</span>  <span class="co">## there are some gaps, it's every two days to start and some are missing</span></span>
 <span><span class="co">#&gt; Time differences in days</span></span>
-<span><span class="co">#&gt; [1] -16994    115</span></span>
+<span><span class="co">#&gt; [1] 1 7</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">files</span><span class="op">$</span><span class="va">date</span><span class="op">)</span><span class="op">)</span>  <span class="co">## the number of potential data days</span></span>
-<span><span class="co">#&gt; Time difference of 16994 days</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/diff.html" class="external-link">diff</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/range.html" class="external-link">range</a></span><span class="op">(</span><span class="va">icefiles</span><span class="op">$</span><span class="va">date</span><span class="op">)</span><span class="op">)</span>  <span class="co">## the number of potential data days</span></span>
+<span><span class="co">#&gt; Time difference of 16993 days</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">files</span><span class="op">)</span>  <span class="co">## the actual number of data days</span></span>
-<span><span class="co">#&gt; [1] 90965</span></span></code></pre></div>
+<span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">icefiles</span><span class="op">)</span>  <span class="co">## the actual number of data days</span></span>
+<span><span class="co">#&gt; [1] 16988</span></span></code></pre></div>
 <p>This is a very experimental begin at replacing <a href="https://github.com/AustralianAntarcticDivision/raadtools" class="external-link">raadtools</a> with a package anyone can use.</p>
 <p>We can read from the datasets with a GDAL-ready package, such as terra. But note that we need to set a configuration first, and we need to unset it after, this is WIP.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
@@ -253,14 +253,6 @@
 <span><span class="co">#&gt;  9 1978-11-03 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…</span></span>
 <span><span class="co">#&gt; 10 1978-11-04 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…</span></span>
 <span><span class="co">#&gt; # ℹ 16,978 more rows</span></span></code></pre></div>
-<div class="section level3">
-<h3 id="note-for-macos-users-sadly">Note for MacOS users (sadly)<a class="anchor" aria-label="anchor" href="#note-for-macos-users-sadly"></a>
-</h3>
-<p>On MacOS the best GDAL we can get is 3.5.3 which is sadly too old for some of these NetCDF files (these can be worked around but I don’t want to do that here). At best it looks like we might get an update soon: <a href="https://lists.osgeo.org/pipermail/gdal-dev/2025-February/060229.html" class="external-link uri">https://lists.osgeo.org/pipermail/gdal-dev/2025-February/060229.html</a></p>
-<p>At your own risk, we’ve had success installing GDAL latest.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode R"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="sc">/</span>bin<span class="sc">/</span>bash <span class="sc">-</span>c <span class="st">"$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</span> <span class="sc">&amp;&amp;</span> brew install gdal <span class="sc">--</span>HEAD</span></code></pre></div>
-<p>We haven’t yet figured out what is the minimum version needed for this package to work well with all the datasets, or how to get a particular commit/tag/version (WIP).</p>
-</div>
 </div>
 <div class="section level2">
 <h2 id="code-of-conduct">Code of Conduct<a class="anchor" aria-label="anchor" href="#code-of-conduct"></a>
