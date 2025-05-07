@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# sooty <img src="man/figures/hex-sooty.png" align="right" height="188" />
+# sooty <img src="man/figures/hex-sooty.png" align="right" height="188" width="214" />
 
 <!-- badges: start -->
 

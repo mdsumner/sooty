@@ -2,7 +2,8 @@ Package: sooty
 Title: Data Source Catalogues Online for Southern Ocean Ecosystem Research
 Version: 0.1.1.9002
 Authors@R: c(
-    person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")))
+    person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")), 
+    person("Aleks", "Terauds", role = c("cph", "ctb"), comment = "Provided logo photo from p116 of 'Subantarctic wilderness: Macquarie Island, 2007(978-1741753028)'"))
 Description: Obtains lists of files of remote sensing collections for Southern Ocean surface 
  properties. Commonly used data sources of sea surface temperature, sea ice concentration, and 
  altimetry products such as sea surface height and sea surface currents are cached in object storage
