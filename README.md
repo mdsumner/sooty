@@ -131,15 +131,15 @@ And, explore exactly what source files are available:
 
 ``` r
 
-range(diff(files$date))  ## there are some gaps, it's every two days to start and some are missing
+range(diff(icefiles$date))  ## there are some gaps, it's every two days to start and some are missing
 #> Time differences in days
-#> [1] -16994    115
+#> [1] 1 7
 
-diff(range(files$date))  ## the number of potential data days
-#> Time difference of 16994 days
+diff(range(icefiles$date))  ## the number of potential data days
+#> Time difference of 16993 days
 
-nrow(files)  ## the actual number of data days
-#> [1] 90965
+nrow(icefiles)  ## the actual number of data days
+#> [1] 16988
 ```
 
 This is a very experimental begin at replacing
@@ -230,21 +230,6 @@ ds@source
 #> 10 1978-11-04 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
 #> # ℹ 16,978 more rows
 ```
-
-### Note for MacOS users (sadly)
-
-On MacOS the best GDAL we can get is 3.5.3 which is sadly too old for
-some of these NetCDF files (these can be worked around but I don’t want
-to do that here). At best it looks like we might get an update soon:
-<https://lists.osgeo.org/pipermail/gdal-dev/2025-February/060229.html>
-
-At your own risk, we’ve had success installing GDAL latest.
-
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && brew install gdal --HEAD
-
-We haven’t yet figured out what is the minimum version needed for this
-package to work well with all the datasets, or how to get a particular
-commit/tag/version (WIP).
 
 ## Code of Conduct
 
