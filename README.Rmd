@@ -34,19 +34,16 @@ library(sooty)
 (files <- tibble::as_tibble(sooty_files()))
 ```
 
-These are all directly useable source identifiers that a GDAL-enabled package can read, within caveats: note that there are environment variables required to ensure the sources work. (See examples below).  
+These are all directly useable source identifiers that a GDAL-enabled package can read. (See examples below).  
 
-
-For now we only have manual handling, such as
+For now we only have manual handling for dates, such as: 
 
 ```{r terra}
 library(terra)
 file <- files$source[which.max(files$date) ]
 print(file)
 
-Sys.setenv(AWS_S3_ENDPOINT="projects.pawsey.org.au", 
-           AWS_NO_SIGN_REQUEST="YES",
-           GDAL_DISABLE_READDIR_ON_OPEN = "EMPTY_DIR")
+
 rast(file)
 ```
 
@@ -88,19 +85,15 @@ This is a very experimental begin at replacing [raadtools](https://github.com/Au
 We can read from the datasets with a GDAL-ready package, such as terra. But note that we need to set a configuration first, and we need to unset it after,  this is WIP. 
 
 ```{r}
-env <- c(Sys.getenv("AWS_NO_SIGN_REQUEST"), Sys.getenv("AWS_S3_ENDPOINT"), Sys.getenv("AWS_VIRTUAL_HOSTING"))
 
-Sys.setenv("AWS_NO_SIGN_REQUEST" = "YES")
-Sys.setenv("AWS_S3_ENDPOINT" = "projects.pawsey.org.au")
-Sys.setenv("AWS_VIRTUAL_HOSTING" = "FALSE")
 library(terra)
 (r <- rast(tail(icefiles$source, 1)))
 plot(r[[nlyr(r)]], main = format(max(icefiles$date)))
-
-
-Sys.setenv("AWS_NO_SIGN_REQUEST" = env[1])
-Sys.setenv("AWS_S3_ENDPOINT" = env[2])
-Sys.setenv("AWS_VIRTUAL_HOSTING" = env[3])
+ghrsst <- dataset("ghrsst-tif")
+sstfile <- ghrsst@source$source[match(max(icefiles$date), ghrsst@source$date)]
+sst <- rast(sprintf("vrt://%s?ovr=4", sstfile))
+ct <- as.contour(crop(sst, ext(-180, 180, -90, -40)))
+plot(project(ct, crs(r)), add = TRUE, col = "hotpink")
 ```
 
 That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentration from passive microwave at 25km resolution, by the National Snow and Ice Data Center. 
