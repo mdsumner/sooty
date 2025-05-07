@@ -151,24 +151,20 @@ But note that we need to set a configuration first, and we need to unset
 it after, this is WIP.
 
 ``` r
-
+amsrfiles <- dataset("antarctica-amsr2-asi-s3125-tif")@source
 library(terra)
-(r <- rast(tail(icefiles$source, 1)))
+
+(r <- rast(tail(amsrfiles$source, 1)))
 #> class       : SpatRaster 
-#> dimensions  : 332, 316, 3  (nrow, ncol, nlyr)
-#> resolution  : 25000, 25000  (x, y)
+#> dimensions  : 2656, 2528, 1  (nrow, ncol, nlyr)
+#> resolution  : 3125, 3125  (x, y)
 #> extent      : -3950000, 3950000, -3950000, 4350000  (xmin, xmax, ymin, ymax)
-#> coord. ref. : NSIDC Sea Ice Polar Stereographic South (EPSG:3412) 
-#> sources     : NSIDC0081_SEAICE_PS_S25km_20250505_v2.0.nc:F16_ICECON  
-#>               NSIDC0081_SEAICE_PS_S25km_20250505_v2.0.nc:F17_ICECON  
-#>               NSIDC0081_SEAICE_PS_S25km_20250505_v2.0.nc:F18_ICECON  
-#> varnames    : F16_ICECON (Sea Ice Concentration) 
-#>               F17_ICECON (Sea Ice Concentration) 
-#>               F18_ICECON (Sea Ice Concentration) 
-#> names       :                 F16_ICECON,                 F17_ICECON,                 F18_ICECON 
-#> unit        : Fraction between 0.0 - 1.0, Fraction between 0.0 - 1.0, Fraction between 0.0 - 1.0 
-#> time (days) : 2025-05-05
-plot(r[[nlyr(r)]], main = format(max(icefiles$date)))
+#> coord. ref. : WGS 84 / NSIDC Sea Ice Polar Stereographic South (EPSG:3976) 
+#> source      : asi-AMSR2-s3125-20250505-v5.4.tif 
+#> color table : 1 
+#> name        : asi-AMSR2-s3125-20250505-v5.4
+r[r > 100] <- NA
+plot(r[[nlyr(r)]] * 1, main = format(max(icefiles$date)))
 ghrsst <- dataset("ghrsst-tif")
 sstfile <- ghrsst@source$source[match(max(icefiles$date), ghrsst@source$date)]
 sst <- rast(sprintf("vrt://%s?ovr=4", sstfile))
@@ -180,7 +176,7 @@ plot(project(ct, crs(r)), add = TRUE, col = "hotpink")
 
 That should be the state of the sea ice in the Southern Ocean at the
 latest available date, sea ice concentration from passive microwave at
-25km resolution, by the National Snow and Ice Data Center.
+3.125km resolution, by the AWI artist sea ice group.
 
 ## S7 object control
 

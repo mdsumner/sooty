@@ -84,10 +84,12 @@ This is a very experimental begin at replacing [raadtools](https://github.com/Au
 We can read from the datasets with a GDAL-ready package, such as terra. But note that we need to set a configuration first, and we need to unset it after,  this is WIP. 
 
 ```{r}
-
+amsrfiles <- dataset("antarctica-amsr2-asi-s3125-tif")@source
 library(terra)
-(r <- rast(tail(icefiles$source, 1)))
-plot(r[[nlyr(r)]], main = format(max(icefiles$date)))
+
+(r <- rast(tail(amsrfiles$source, 1)))
+r[r > 100] <- NA
+plot(r[[nlyr(r)]] * 1, main = format(max(icefiles$date)))
 ghrsst <- dataset("ghrsst-tif")
 sstfile <- ghrsst@source$source[match(max(icefiles$date), ghrsst@source$date)]
 sst <- rast(sprintf("vrt://%s?ovr=4", sstfile))
@@ -95,7 +97,7 @@ ct <- as.contour(crop(sst, ext(-180, 180, -90, -40)))
 plot(project(ct, crs(r)), add = TRUE, col = "hotpink")
 ```
 
-That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentration from passive microwave at 25km resolution, by the National Snow and Ice Data Center. 
+That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentration from passive microwave at 3.125km resolution, by the AWI artist sea ice group. 
 
 
 ## S7 object control
