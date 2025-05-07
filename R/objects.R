@@ -1,38 +1,35 @@
 .read_tempfile <- function(curated = TRUE) {
   #bucket <- arrow::s3_bucket("idea-objects", endpoint_override= "https://projects.pawsey.org.au", region = "")
   #out <- arrow::read_parquet(bucket$OpenInputFile("idea-curated-objects.parquet"))
-
   sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"
   if (curated) sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-curated-objects.parquet"
-  tfile <- tempfile(fileext = ".parquet")
-  on.exit(unlink(tfile), add = TRUE)
-  err <- try(curl::curl_download(sourcefile, tfile), silent = TRUE)
-  if (inherits(err, "try-error")) stop("cannot download latest file list, curl download failed")
-  arrow::read_parquet(tfile)
+  # tfile <- tempfile(fileext = ".parquet")
+  # on.exit(unlink(tfile), add = TRUE)
+  # err <- try(curl::curl_download(sourcefile, tfile), silent = TRUE)
+  # if (inherits(err, "try-error")) stop("cannot download latest file list, curl download failed")
+  #
+  arrow::read_parquet(sourcefile)
 }
 #' @importFrom arrow  read_parquet
 .objects <- function() {
   .read_tempfile(FALSE)
 }
-.curated_objects <- function(ds  = NULL) {
+.curated_objects <- function() {
   out <- .read_tempfile()
-
-  if (!is.null(ds)) out <- dplyr::filter(out, .data$Dataset == ds)
   out
 }
 
 
 .fileobjects <- function() {
-  .objects() |> dplyr::mutate(fullname = sprintf("/vsis3/%s/%s", .data$Bucket, .data$Key))
+  .objects() |> dplyr::mutate(fullname = sprintf("%s/%s/%s", .data$Host, .data$Bucket, .data$Key))
 }
 
 .curated_files <- function(dataset) {
   files <- .curated_objects()
   if (!missing(dataset)) files <- files[files$Dataset == dataset, , drop = FALSE]
-  files$protocol <-  "/vsis3"
-  files$source <- sprintf("%s/%s/%s", files$protocol, files$Bucket, files$Key)
+  files$source <- sprintf("%s/%s/%s/%s", files$Protocol, files$Host, files$Bucket, files$Key)
 
-  files[c("date", "source", "Bucket", "Key", "protocol", "Dataset")]
+  files[c("date", "source",  "Dataset", "Bucket", "Key", "Protocol", "Host")]
 }
 
 #' Obtain object storage catalogues as a dataframe of file/object identifiers.

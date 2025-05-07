@@ -1,5 +1,7 @@
 # sooty dev
 
+* Now using more robust model of GDAL protocol and absolute URLs. 
+
 * Added an S7 object to set dataset id and retrieve files. 
 
 * Removed all read functionality. 
