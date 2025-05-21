@@ -18,7 +18,7 @@ sooty knows about.'><!-- mathjax --><script src="https://cdnjs.cloudflare.com/aj
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sooty</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1.9002</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.1.1.9003</span>
       </span>
     </div>
 
@@ -95,52 +95,19 @@ sooty knows about.</p>
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu">dataset</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>'dataset' is deprecated.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Use 'datasource' instead.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> See help("Deprecated")</span>
 <span class="r-in"><span><span class="co">## available dataset names</span></span></span>
 <span class="r-in"><span><span class="va">ds</span><span class="op">@</span><span class="va">available_datasets</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "oisst-avhrr-v02r01"             "SEALEVEL_GLO_PHY_L4"           </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [3] "NSIDC_SEAICE_PS_S25km"          "NSIDC_SEAICE_PS_N25km"         </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [5] "antarctica-amsr2-asi-s3125-tif" "ghrsst-tif"                    </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> [7] "oisst-tif"                      "esacci-tif"                    </span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Can't find property &lt;sooty::dataset&gt;@available_datasets</span>
 <span class="r-in"><span><span class="co">## set to one of those</span></span></span>
 <span class="r-in"><span><span class="va">ds</span><span class="op">@</span><span class="va">id</span> <span class="op">&lt;-</span> <span class="st">"oisst-tif"</span></span></span>
 <span class="r-in"><span><span class="va">ds</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> &lt;sooty::dataset&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ id                : chr "oisst-tif"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ n                 : int 15950</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ mindate           : POSIXct[1:1], format: "1981-09-01"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ maxdate           : POSIXct[1:1], format: "2025-05-02"</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ available_datasets: chr [1:8] "oisst-avhrr-v02r01" "SEALEVEL_GLO_PHY_L4" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ curated           : tibble [90,965 × 7] (S3: tbl_df/tbl/data.frame)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ date    : POSIXct[1:90965], format: "1981-09-01" "1981-09-02" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ source  : chr [1:90965] "/vsicurl/https://projects.pawsey.org.au/idea-10.7289-v5sq8xb5/www.ncei.noaa.gov/data/sea-surface-temperature-op"| __truncated__ "/vsicurl/https://projects.pawsey.org.au/idea-10.7289-v5sq8xb5/www.ncei.noaa.gov/data/sea-surface-temperature-op"| __truncated__ "/vsicurl/https://projects.pawsey.org.au/idea-10.7289-v5sq8xb5/www.ncei.noaa.gov/data/sea-surface-temperature-op"| __truncated__ "/vsicurl/https://projects.pawsey.org.au/idea-10.7289-v5sq8xb5/www.ncei.noaa.gov/data/sea-surface-temperature-op"| __truncated__ ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Dataset : chr [1:90965] "oisst-avhrr-v02r01" "oisst-avhrr-v02r01" "oisst-avhrr-v02r01" "oisst-avhrr-v02r01" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Bucket  : chr [1:90965] "idea-10.7289-v5sq8xb5" "idea-10.7289-v5sq8xb5" "idea-10.7289-v5sq8xb5" "idea-10.7289-v5sq8xb5" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Key     : chr [1:90965] "www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/198109/oisst-avhrr-v02r01.19810901.nc" "www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/198109/oisst-avhrr-v02r01.19810902.nc" "www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/198109/oisst-avhrr-v02r01.19810903.nc" "www.ncei.noaa.gov/data/sea-surface-temperature-optimum-interpolation/v2.1/access/avhrr/198109/oisst-avhrr-v02r01.19810904.nc" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Protocol: chr [1:90965] "/vsicurl" "/vsicurl" "/vsicurl" "/vsicurl" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Host    : chr [1:90965] "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  @ source            : tibble [15,950 × 7] (S3: tbl_df/tbl/data.frame)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ date    : POSIXct[1:15950], format: "1981-09-01" "1981-09-02" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ source  : chr [1:15950] "/vsicurl/https://projects.pawsey.org.au/idea-oisst/oisst-avhrr-v02r01.19810901_sst.tif" "/vsicurl/https://projects.pawsey.org.au/idea-oisst/oisst-avhrr-v02r01.19810902_sst.tif" "/vsicurl/https://projects.pawsey.org.au/idea-oisst/oisst-avhrr-v02r01.19810903_sst.tif" "/vsicurl/https://projects.pawsey.org.au/idea-oisst/oisst-avhrr-v02r01.19810904_sst.tif" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Dataset : chr [1:15950] "oisst-tif" "oisst-tif" "oisst-tif" "oisst-tif" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Bucket  : chr [1:15950] "idea-oisst" "idea-oisst" "idea-oisst" "idea-oisst" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Key     : chr [1:15950] "oisst-avhrr-v02r01.19810901_sst.tif" "oisst-avhrr-v02r01.19810902_sst.tif" "oisst-avhrr-v02r01.19810903_sst.tif" "oisst-avhrr-v02r01.19810904_sst.tif" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Protocol: chr [1:15950] "/vsicurl" "/vsicurl" "/vsicurl" "/vsicurl" ...</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>  $ Host    : chr [1:15950] "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" ...</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> Can't find property &lt;sooty::dataset&gt;@curated</span>
 <span class="r-in"><span><span class="va">ds</span><span class="op">@</span><span class="va">source</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 15,950 × 7</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    date                source                Dataset Bucket Key   Protocol Host </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>                 <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 1</span> 1981-09-01 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 2</span> 1981-09-02 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 3</span> 1981-09-03 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 4</span> 1981-09-04 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 5</span> 1981-09-05 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 6</span> 1981-09-06 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 7</span> 1981-09-07 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 8</span> 1981-09-08 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1981-09-09 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1981-09-10 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… oiss… /vsicurl http…</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 15,940 more rows</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> NULL</span>
 </code></pre></div>
     </div>
   </div>
