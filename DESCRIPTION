@@ -1,6 +1,6 @@
 Package: sooty
 Title: Data Source Catalogues Online for Southern Ocean Ecosystem Research
-Version: 0.1.1.9002
+Version: 0.1.1.9003
 Authors@R: c(
     person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")), 
     person("Aleks", "Terauds", role = c("cph", "ctb"), comment = "Provided logo photo from p116 of 'Subantarctic wilderness: Macquarie Island, 2007(978-1741753028)'"))

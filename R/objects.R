@@ -1,21 +1,14 @@
-.read_tempfile <- function(curated = TRUE) {
-  #bucket <- arrow::s3_bucket("idea-objects", endpoint_override= "https://projects.pawsey.org.au", region = "")
-  #out <- arrow::read_parquet(bucket$OpenInputFile("idea-curated-objects.parquet"))
+.read_parquet <- function(curated = TRUE) {
   sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"
   if (curated) sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-curated-objects.parquet"
-  # tfile <- tempfile(fileext = ".parquet")
-  # on.exit(unlink(tfile), add = TRUE)
-  # err <- try(curl::curl_download(sourcefile, tfile), silent = TRUE)
-  # if (inherits(err, "try-error")) stop("cannot download latest file list, curl download failed")
-  #
   arrow::read_parquet(sourcefile)
 }
 #' @importFrom arrow  read_parquet
 .objects <- function() {
-  .read_tempfile(FALSE)
+  .read_parquet(FALSE)
 }
 .curated_objects <- function() {
-  out <- .read_tempfile()
+  out <- .read_parquet()
   out
 }
 
