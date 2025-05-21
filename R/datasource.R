@@ -21,26 +21,33 @@ NULL
 #' @examples
 #' ds <- datasource()  ## FIXME this should validate empty input
 #' ## available dataset names
-#' ds@available_datasources
+#' available_datasets()
 #' ## set to one of those
 #' ds@id <- "oisst-tif"
 #' ds
 #' ds@source
 datasource <- S7::new_class(name = "dataset", package = "sooty",
   properties = list(
-    id = S7::new_property(class = S7::class_character, default = "id"),
-    n = S7::new_property(class = S7::class_integer, getter = function(self) nrow(self@source)),
-    mindate = S7::new_property(class = S7::class_POSIXct, getter = function(self) min(self@source$date)),
-    maxdate = S7::new_property(class = S7::class_POSIXct, getter = function(self) max(self@source$date)),
+    id = S7::new_property(class = S7::class_character, default = NA_character_),
+    n = S7::new_property(class = S7::class_integer, getter = function(self) if (is.na(self@id)) NA else  nrow(self@source)),
+    mindate = S7::new_property(class = S7::class_POSIXct, getter = function(self) if (is.na(self@id)) NA else min(self@source$date)),
+    maxdate = S7::new_property(class = S7::class_POSIXct, getter = function(self) if (is.na(self@id)) NA else max(self@source$date)),
     source = S7::new_property(
       class = S7::class_data.frame,
       getter = function(self) {
-        self@curated |> dplyr::filter(Dataset == self@id)
+        if (is.na(self@id)) message("`id` is NA, please see `sooty::available_datasets()` and set `@id` or use `datasource(id)`")
+        sooty_files(TRUE) |> dplyr::filter(Dataset == self@id)
       }
     ))
 
   )
 
+#' Title
+#'
+#' @returns character vector of available dataset ids for `datasource()`
+#' @export
+#'
+#' @examples
 available_datasets <- function() {
   sort(unique(sooty_files()$Dataset))
 }
