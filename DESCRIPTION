@@ -15,7 +15,8 @@ Description: Obtains lists of files of remote sensing collections for Southern O
  particular data collections and target specific dates for earth observation data for reading, as well as 
  helpers to retrieve data set citation and provenance details.  This work was supported by resources provided 
  by the Pawsey Supercomputing Research Centre with funding from the Australian Government and the Government of 
- Western Australia.
+ Western Australia.  This software was developed by the Integrated Digital East Antarctica program of the Australian
+ Antarctic Division. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-US
@@ -24,10 +25,12 @@ RoxygenNote: 7.3.2
 Imports: 
     arrow,
     dplyr,
-    S7
+    S7,
+    tibble
 URL: https://github.com/mdsumner/sooty
 BugReports: https://github.com/mdsumner/sooty/issues
 Suggests: 
+    curl,
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
