@@ -12,3 +12,6 @@ character vector of available dataset ids for \code{datasource()}
 \description{
 Title
 }
+\examples{
+available_datasets()
+}

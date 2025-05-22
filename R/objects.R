@@ -14,7 +14,7 @@
 
 
 .fileobjects <- function() {
-  .objects() |> dplyr::mutate(fullname = sprintf("%s/%s/%s", .data$Host, .data$Bucket, .data$Key))
+   dplyr::mutate(.objects(), fullname = sprintf("%s/%s/%s", .data$Host, .data$Bucket, .data$Key))
 }
 
 .curated_files <- function(dataset) {
