@@ -2,7 +2,7 @@
 % Please edit documentation in R/datasource.R
 \name{available_datasets}
 \alias{available_datasets}
-\title{Title}
+\title{List available datasets}
 \usage{
 available_datasets()
 }
@@ -10,5 +10,9 @@ available_datasets()
 character vector of available dataset ids for \code{datasource()}
 }
 \description{
-Title
+In \code{sooty_files()} the data source files are grouped by \code{Dataset}, this is the
+list of unique datasets, values that can be used in \verb{datasource(<name>)}.
+}
+\examples{
+available_datasets()
 }

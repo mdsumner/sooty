@@ -2,31 +2,43 @@
 % Please edit documentation in R/datasource.R
 \name{datasource}
 \alias{datasource}
-\title{Create a datasource object. A data source can access a list of files that together comprise a dataset.}
+\alias{dataset}
+\title{Create a datasource object. A data source provides a list of files that together comprise a dataset.}
+\usage{
+datasource(id = NA_character_)
+
+dataset(...)
+}
 \arguments{
-\item{id}{a dataset label, see 'datasorce()@available_datasources' (get, and settable)}
+\item{id}{a dataset label, see 'datasource()@available_datasources' (get, and settable)}
 
-\item{n}{the number of files (objects) comprising the dataset (get, not settable)}
-
-\item{mindate}{the minimum available date for the files}
-
-\item{maxdate}{the maximum available date for the files}
-
-\item{source}{the set of files (objects) belonging to this dataset (get, not settable)}
+\item{...}{only used by deprecated function, will become defunct}
 }
 \description{
 Generates an object whose "@id" property may be set, which then communicates with a dataset of files/objects that
 sooty knows about.
 }
 \details{
-Compare 'curated' to 'sooty_files(curated = FALSE)', if its curated sooty knows what dataset it belongs to
+Compare 'curated' to 'sooty_files(curated = FALSE)', if it is curated sooty knows what dataset it belongs to, and
+otherwise it's just the huge list of files we're interested in for our work. All of the curation is done outside of sooty.
+
+The following properties are available via the \code{@} slot:
+\itemize{
+\item \code{n} the number of files (objects) comprising the dataset (get, not settable)
+\item \code{mindate} the minimum available date for the files
+\item `maxdate1 the maximum available date for the files
+\item `source1 the set of files (objects) belonging to this dataset (get, not settable)
+}
+}
+\note{
+This was originally called \code{dataset()} which usage has now been deprecated.
 }
 \examples{
-ds <- datasource()  ## FIXME this should validate empty input
 ## available dataset names
-available_datasets()
+if (interactive()) {
+ available_datasets()
+}
 ## set to one of those
-ds@id <- "oisst-tif"
-ds
-ds@source
+ds  <- datasource("ghrsst-tif")
+## access the 'ds@source' slot, files with 'date','source' (GDAL-readable)
 }

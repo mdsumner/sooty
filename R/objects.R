@@ -1,7 +1,7 @@
 .read_parquet <- function(curated = TRUE) {
   sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"
   if (curated) sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-curated-objects.parquet"
-  arrow::read_parquet(sourcefile)
+  tibble::as_tibble(arrow::read_parquet(sourcefile))
 }
 #' @importFrom arrow  read_parquet
 .objects <- function() {
@@ -14,7 +14,7 @@
 
 
 .fileobjects <- function() {
-  .objects() |> dplyr::mutate(fullname = sprintf("%s/%s/%s", .data$Host, .data$Bucket, .data$Key))
+   dplyr::mutate(.objects(), fullname = sprintf("%s/%s/%s", .data$Host, .data$Bucket, .data$Key))
 }
 
 .curated_files <- function(dataset) {

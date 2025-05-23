@@ -1,6 +1,6 @@
 Package: sooty
 Title: Data Source Catalogues Online for Southern Ocean Ecosystem Research
-Version: 0.1.1.9003
+Version: 0.5.0
 Authors@R: c(
     person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")), 
     person("Aleks", "Terauds", role = c("cph", "ctb"), comment = "Provided logo photo from p116 of 'Subantarctic wilderness: Macquarie Island, 2007(978-1741753028)'"))
@@ -15,7 +15,8 @@ Description: Obtains lists of files of remote sensing collections for Southern O
  particular data collections and target specific dates for earth observation data for reading, as well as 
  helpers to retrieve data set citation and provenance details.  This work was supported by resources provided 
  by the Pawsey Supercomputing Research Centre with funding from the Australian Government and the Government of 
- Western Australia.
+ Western Australia.  This software was developed by the Integrated Digital East Antarctica program of the Australian
+ Antarctic Division. 
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-US
@@ -23,12 +24,13 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: 
     arrow,
-    curl,
     dplyr,
-    S7
+    S7,
+    tibble
 URL: https://github.com/mdsumner/sooty
 BugReports: https://github.com/mdsumner/sooty/issues
 Suggests: 
+    curl,
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3

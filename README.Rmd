@@ -30,12 +30,20 @@ To see what files we know about in object storage, use
 
 ```{r sooty}
 library(sooty)
-(files <- tibble::as_tibble(sooty_files()))
+(files <- sooty_files())
 ```
 
-These are all directly useable source identifiers that a GDAL-enabled package can read. (See examples below).  
+The main columns of interest are `date` and `source` and `Dataset`, the `source` is a directly useable source identifier that a GDAL-enabled package can read. (See examples below).
 
-For now we only have manual handling for dates, such as: 
+We can get a very simple model of a "logical dataset" by honing in one `Dataset` in particular. First let's make a summary from everything: 
+
+```{r summary}
+library(sooty)
+sooty_files() |> 
+     dplyr::mutate(date = as.Date(date)) |>  dplyr::group_by(Dataset) |> 
+     dplyr::summarize(earliest = min(date), latest = max(date), n = dplyr::n()) |> 
+     dplyr::arrange(Dataset, earliest)
+```
 
 ```{r terra}
 library(terra)
@@ -99,6 +107,11 @@ plot(project(ct, crs(r)), add = TRUE, col = "hotpink")
 
 That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentration from passive microwave at 3.125km resolution, by the AWI artist sea ice group. 
 
+## About the columns in `sooty_files()`
+
+`Dataset` is the main grouping value, and files from different `Dataset`s are otherwise non-relatable, be it by file format, available variable/s, grid specification (spatial extent and resolution), or temporal organization.  We guarantee that within a Dataset, the files are ordered and unique by date(-time) and that they are  exactly relatable spatially and (mostly, or usually also) by variable/s. The time series may not be regular or complete, but usually is.
+ 
+We retain the component parts of `source`, as `Bucket`, `Key`, `Protocol`, and `Host` as this is object storage and these are the separable parts of addressing objects in different ways, and we've reserved that for future usage. (We use `https://` protocol by default to avoid any required configurations). Get in touch if you have any questions about this. 
 
 ## S7 object control
 
