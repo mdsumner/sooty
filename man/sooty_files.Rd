@@ -33,5 +33,5 @@ if (interactive()) {
   sooty_files(FALSE)
 }
 
-sooty_files()
+try(sooty_files())
 }

@@ -27,7 +27,7 @@ NULL
 #'  available_datasets()
 #' }
 #' ## set to one of those
-#' ds  <- datasource("ghrsst-tif")
+#' try(ds  <- datasource("ghrsst-tif"))
 #' ## access the 'ds@source' slot, files with 'date','source' (GDAL-readable)
 datasource <- S7::new_class(name = "dataset", package = "sooty",
   properties = list(
@@ -54,7 +54,7 @@ datasource <- S7::new_class(name = "dataset", package = "sooty",
 #' @export
 #'
 #' @examples
-#' available_datasets()
+#' try(available_datasets())
 available_datasets <- function() {
   sort(unique(sooty_files()$Dataset))
 }

@@ -1,7 +1,13 @@
 .read_parquet <- function(curated = TRUE) {
   sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"
   if (curated) sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-curated-objects.parquet"
-  tibble::as_tibble(arrow::read_parquet(sourcefile))
+  tryCatch(
+    tibble::as_tibble(arrow::read_parquet(sourcefile)),
+    error = function(e) {
+      stop(sprintf("Could not connect to\n  '%s'\n  Try again later when the server is available.\n  Original error: %s",
+                   sourcefile, conditionMessage(e)), call. = FALSE)
+    }
+  )
 }
 #' @importFrom arrow  read_parquet
 .objects <- function() {
@@ -51,7 +57,7 @@
 #'   sooty_files(FALSE)
 #' }
 #'
-#' sooty_files()
+#' try(sooty_files())
 sooty_files <- function(curated = TRUE) {
   if (curated) {
     return(.curated_files())

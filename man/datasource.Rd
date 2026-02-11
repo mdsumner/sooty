@@ -39,6 +39,6 @@ if (interactive()) {
  available_datasets()
 }
 ## set to one of those
-ds  <- datasource("ghrsst-tif")
+try(ds  <- datasource("ghrsst-tif"))
 ## access the 'ds@source' slot, files with 'date','source' (GDAL-readable)
 }
