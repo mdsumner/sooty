@@ -1,6 +1,6 @@
 Package: sooty
 Title: Data Source Catalogues Online for Southern Ocean Ecosystem Research
-Version: 0.5.0
+Version: 0.6.0
 Authors@R: c(
     person("Michael D.", "Sumner", , "michael.sumner@aad.gov.au", role = c("aut", "cre")), 
     person("Aleks", "Terauds", role = c("cph", "ctb"), comment = "Provided logo photo from p116 of 'Subantarctic wilderness: Macquarie Island, 2007(978-1741753028)'"))
@@ -21,16 +21,18 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Imports: 
     arrow,
+    curl,
     dplyr,
     S7,
     tibble
 URL: https://github.com/mdsumner/sooty
 BugReports: https://github.com/mdsumner/sooty/issues
 Suggests: 
-    curl,
     spelling,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Depends: 
+    R (>= 2.10)

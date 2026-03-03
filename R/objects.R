@@ -1,16 +1,3 @@
-.read_parquet <- function(curated = TRUE) {
-  sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"
-  if (curated) sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-curated-objects.parquet"
-  tibble::as_tibble(arrow::read_parquet(sourcefile))
-}
-#' @importFrom arrow  read_parquet
-.objects <- function() {
-  .read_parquet(FALSE)
-}
-.curated_objects <- function() {
-  out <- .read_parquet()
-  out
-}
 
 
 .fileobjects <- function() {

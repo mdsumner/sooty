@@ -1,4 +1,14 @@
-# sooty dev
+# sooty 0.6.0
+
+* A file cache is now stored internally in the package, installed to user cache space as a file,
+ and this is checked for staleness once per session and updated if internet access is available. 
+ 
+* Status of user cache can be checked with new function `sooty_cache_info()` which returns information
+ about the location, age, and size of the cache. 
+
+* The the non-curated catalogue is no longer exposed to exported functions. 
+
+# sooty 0.5.0
 
 * dataset() is now deprecated in favour of datasource()
  

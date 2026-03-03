@@ -1,11 +1,10 @@
-## sooty 0.5.0
+## sooty 0.6.0
 
-New release, sooty 0.5.0. Also fixes issues on CRAN. 
+New release, sooty 0.6.0 to fix (Additional) issues on CRAN related to 
+attempting to download the file cache. 
 
 Thanks very much!
 
-## R CMD check results
 
-0 errors | 0 warnings | 1 note
 
 
