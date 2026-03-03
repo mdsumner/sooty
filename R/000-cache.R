@@ -26,6 +26,7 @@
 }
 
 # Seed user cache from sysdata if missing — no internet required
+#' @importFrom arrow write_parquet
 .seed_cache_from_sysdata <- function() {
   path <- .cache_path()
   if (file.exists(path)) return(invisible(NULL))
@@ -52,7 +53,7 @@
   invisible(NULL)
 }
 
-
+#' @importFrom tibble as_tibble
 #' @importFrom arrow  read_parquet
 .objects <- function() {
   sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"

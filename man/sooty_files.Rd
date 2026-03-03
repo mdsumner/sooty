@@ -7,17 +7,17 @@
 sooty_files(curated = TRUE)
 }
 \arguments{
-\item{curated}{logical \code{TRUE} by default, set to \code{FALSE} to return raw object catalogue}
+\item{curated}{logical \code{TRUE} by default, ignored with a warning if \code{FALSE}}
 }
 \value{
 a data frame, see details
 }
 \description{
 The object (file) catalogue of available sources is stored in Parquet format on Pawsey
-object storage. This function retrieves the curated catalogue, or the raw catalogue.
+object storage. This function retrieves the curated catalogue.
 }
 \details{
-In the curated case, the returned data frame has columns 'date', 'source' which are the main
+The returned curated data frame has columns 'date', 'source' which are the main
 useful fields, these describe the date of the data in the file, and its full URI (Uniform Resource Identifier) source on
 S3 object storage. There are also fields 'Bucket', 'Key', and 'protocol' from which 'source' is
 constructed.
@@ -29,9 +29,7 @@ The public object URI can be reconstructed by replacing the value of 'protocol' 
 'https://projects.pawsey.org.au'.
 }
 \examples{
-if (interactive()) {
-  sooty_files(FALSE)
-}
-
+\donttest{
 sooty_files()
+}
 }

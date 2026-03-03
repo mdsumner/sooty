@@ -14,5 +14,7 @@ In \code{sooty_files()} the data source files are grouped by \code{Dataset}, thi
 list of unique datasets, values that can be used in \verb{datasource(<name>)}.
 }
 \examples{
+\donttest{
 available_datasets()
+}
 }

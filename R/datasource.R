@@ -13,22 +13,23 @@ NULL
 #' The following properties are available via the `@` slot:
 #' * `n` the number of files (objects) comprising the dataset (get, not settable)
 #' * `mindate` the minimum available date for the files
-#' * `maxdate1 the maximum available date for the files
-#' * `source1 the set of files (objects) belonging to this dataset (get, not settable)
+#' * `maxdate1` the maximum available date for the files
+#' * `source1` the set of files (objects) belonging to this dataset (get, not settable)
 #'
-#' @param id a dataset label, see 'datasource()@available_datasources' (get, and settable)
+#' @param id a dataset label, see 'datasource()@available_datasets()' (get, and settable)
 #' @importFrom S7 new_class new_property class_character class_integer class_POSIXct class_data.frame
-#' @importFrom dplyr filter
 #' @export
 #' @note This was originally called `dataset()` which usage has now been deprecated.
 #' @examples
 #' ## available dataset names
+#' \donttest{
 #' if (interactive()) {
 #'  available_datasets()
 #' }
 #' ## set to one of those
 #' ds  <- datasource("ghrsst-tif")
 #' ## access the 'ds@source' slot, files with 'date','source' (GDAL-readable)
+#' }
 datasource <- S7::new_class(name = "dataset", package = "sooty",
   properties = list(
     id = S7::new_property(class = S7::class_character, default = NA_character_),
@@ -39,7 +40,8 @@ datasource <- S7::new_class(name = "dataset", package = "sooty",
       class = S7::class_data.frame,
       getter = function(self) {
         if (is.na(self@id)) message("`id` is NA, please see `sooty::available_datasets()` and set `@id` or use `datasource(id)`")
-         dplyr::filter(sooty_files(TRUE), Dataset == self@id)
+         thefiles <- sooty_files(TRUE)
+         thefiles <- thefiles[thefiles$Dataset == self@id, ]
       }
     ))
 
@@ -54,16 +56,12 @@ datasource <- S7::new_class(name = "dataset", package = "sooty",
 #' @export
 #'
 #' @examples
+#' \donttest{
 #' available_datasets()
+#' }
 available_datasets <- function() {
   sort(unique(sooty_files()$Dataset))
 }
-
-
-#sooty_files()
-# sooty::available_datasources()
-#sooty::datasource(<any,name-of-datasource>)
-## datasource@source,n,mindate,maxdate,id
 
 
 #' @export

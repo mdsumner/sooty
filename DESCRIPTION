@@ -25,7 +25,6 @@ RoxygenNote: 7.3.3
 Imports: 
     arrow,
     curl,
-    dplyr,
     S7,
     tibble
 URL: https://github.com/mdsumner/sooty

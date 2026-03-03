@@ -1,7 +1,8 @@
 
-
 .fileobjects <- function() {
-   dplyr::mutate(.objects(), fullname = sprintf("%s/%s/%s", .data$Host, .data$Bucket, .data$Key))
+  out <- .objects()
+  out[["fullname"]] <- sprintf("%s/%s/%s", out$Host, out$Bucket, out$Key)
+  out
 }
 
 .curated_files <- function(dataset) {
@@ -15,9 +16,9 @@
 #' Obtain object storage catalogues as a dataframe of file/object identifiers.
 #'
 #' The object (file) catalogue of available sources is stored in Parquet format on Pawsey
-#' object storage. This function retrieves the curated catalogue, or the raw catalogue.
+#' object storage. This function retrieves the curated catalogue.
 #'
-#' In the curated case, the returned data frame has columns 'date', 'source' which are the main
+#' The returned curated data frame has columns 'date', 'source' which are the main
 #' useful fields, these describe the date of the data in the file, and its full URI (Uniform Resource Identifier) source on
 #' S3 object storage. There are also fields 'Bucket', 'Key', and 'protocol' from which 'source' is
 #' constructed.
@@ -28,21 +29,19 @@
 #' The public object URI can be reconstructed by replacing the value of 'protocol' in 'source' with
 #' 'https://projects.pawsey.org.au'.
 #'
-#' @param curated logical `TRUE` by default, set to `FALSE` to return raw object catalogue
+#' @param curated logical `TRUE` by default, ignored with a warning if `FALSE`
 #'
 #' @return a data frame, see details
 #' @export
 #'
 #' @examples
-#' if (interactive()) {
-#'   sooty_files(FALSE)
-#' }
-#'
+#' \donttest{
 #' sooty_files()
+#' }
 sooty_files <- function(curated = TRUE) {
-  if (curated) {
-    return(.curated_files())
-  } else {
-    return(.fileobjects())
+  if (!curated) {
+    warning("non-curated file return was removed in sooty 0.6.0")
   }
+  return(.curated_files())
+
 }

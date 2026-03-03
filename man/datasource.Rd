@@ -10,7 +10,7 @@ datasource(id = NA_character_)
 dataset(...)
 }
 \arguments{
-\item{id}{a dataset label, see 'datasource()@available_datasources' (get, and settable)}
+\item{id}{a dataset label, see 'datasource()@available_datasets()' (get, and settable)}
 
 \item{...}{only used by deprecated function, will become defunct}
 }
@@ -26,8 +26,8 @@ The following properties are available via the \code{@} slot:
 \itemize{
 \item \code{n} the number of files (objects) comprising the dataset (get, not settable)
 \item \code{mindate} the minimum available date for the files
-\item `maxdate1 the maximum available date for the files
-\item `source1 the set of files (objects) belonging to this dataset (get, not settable)
+\item \code{maxdate1} the maximum available date for the files
+\item \code{source1} the set of files (objects) belonging to this dataset (get, not settable)
 }
 }
 \note{
@@ -35,10 +35,12 @@ This was originally called \code{dataset()} which usage has now been deprecated.
 }
 \examples{
 ## available dataset names
+\donttest{
 if (interactive()) {
  available_datasets()
 }
 ## set to one of those
 ds  <- datasource("ghrsst-tif")
 ## access the 'ds@source' slot, files with 'date','source' (GDAL-readable)
+}
 }
