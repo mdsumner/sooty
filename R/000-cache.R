@@ -70,15 +70,7 @@
   tibble::as_tibble(arrow::read_parquet(.cache_path()))
 }
 
-#' @export
-.objects <- function() {
-  .read_parquet()
-}
 
-#' @export
-.curated_objects <- function() {
-  .read_parquet()
-}
 
 #' Show sooty cache status
 #'
