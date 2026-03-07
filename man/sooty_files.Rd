@@ -34,6 +34,7 @@ disk I/O and use only the bundled sysdata, or \code{options("sooty.cache.path" =
 to redirect the cache directory. See \code{\link[=sooty_cache_info]{sooty_cache_info()}} for details.
 }
 \examples{
-options("sooty.allow.cache" = FALSE)
+op <- options("sooty.allow.cache" = FALSE)
 sooty_files()
+options(op)
 }

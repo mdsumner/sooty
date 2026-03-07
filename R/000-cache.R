@@ -95,8 +95,9 @@
 #' @examples
 #' sooty_cache_info()
 #'
-#' options("sooty.allow.cache" = FALSE)
+#' op <- options("sooty.allow.cache" = FALSE)
 #' sooty_cache_info()
+#' options(op)
 sooty_cache_info <- function() {
   cache_allowed <- !isFALSE(getOption("sooty.allow.cache", default = TRUE))
   path <- .cache_path()

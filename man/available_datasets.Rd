@@ -14,6 +14,7 @@ In \code{sooty_files()} the data source files are grouped by \code{Dataset}, thi
 list of unique datasets, values that can be used in \code{datasource(id)}.
 }
 \examples{
-options("sooty.allow.cache" = FALSE)
+op <- options("sooty.allow.cache" = FALSE)
 available_datasets()
+options(op)
 }

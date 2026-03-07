@@ -24,11 +24,12 @@ NULL
 #' @export
 #' @note This was originally called `dataset()` which usage has now been deprecated.
 #' @examples
-#' options("sooty.allow.cache" = FALSE)
+#' op <- options("sooty.allow.cache" = FALSE)
 #' ## available dataset names
 #' available_datasets()
 #' ## set to one of those
 #' ds <- datasource("ghrsst-tif")
+#' options(op)
 datasource <- S7::new_class(name = "dataset", package = "sooty",
   properties = list(
     id = S7::new_property(class = S7::class_character, default = NA_character_),
@@ -64,8 +65,9 @@ datasource <- S7::new_class(name = "dataset", package = "sooty",
 #' @export
 #'
 #' @examples
-#' options("sooty.allow.cache" = FALSE)
+#' op <- options("sooty.allow.cache" = FALSE)
 #' available_datasets()
+#' options(op)
 available_datasets <- function() {
   sort(unique(sooty_files()$Dataset))
 }

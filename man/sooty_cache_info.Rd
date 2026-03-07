@@ -29,6 +29,7 @@ Override the cache directory. Useful for CI or shared environments:
 \examples{
 sooty_cache_info()
 
-options("sooty.allow.cache" = FALSE)
+op <- options("sooty.allow.cache" = FALSE)
 sooty_cache_info()
+options(op)
 }

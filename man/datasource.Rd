@@ -37,9 +37,10 @@ directory. See \code{\link[=sooty_cache_info]{sooty_cache_info()}} for details.
 This was originally called \code{dataset()} which usage has now been deprecated.
 }
 \examples{
-options("sooty.allow.cache" = FALSE)
+op <- options("sooty.allow.cache" = FALSE)
 ## available dataset names
 available_datasets()
 ## set to one of those
 ds <- datasource("ghrsst-tif")
+options(op)
 }

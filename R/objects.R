@@ -40,8 +40,9 @@
 #' @export
 #'
 #' @examples
-#' options("sooty.allow.cache" = FALSE)
+#' op <- options("sooty.allow.cache" = FALSE)
 #' sooty_files()
+#' options(op)
 sooty_files <- function(curated = TRUE) {
   if (!curated) {
     warning("non-curated file return was removed in sooty 0.6.0")
