@@ -10,37 +10,36 @@ datasource(id = NA_character_)
 dataset(...)
 }
 \arguments{
-\item{id}{a dataset label, see 'datasource()@available_datasets()' (get, and settable)}
+\item{id}{a dataset label, see \code{\link[=available_datasets]{available_datasets()}}}
 
 \item{...}{only used by deprecated function, will become defunct}
 }
 \description{
-Generates an object whose "@id" property may be set, which then communicates with a dataset of files/objects that
-sooty knows about.
+Generates an object whose \verb{@id} property may be set, which then communicates with a dataset
+of files/objects that sooty knows about.
 }
 \details{
-Compare 'curated' to 'sooty_files(curated = FALSE)', if it is curated sooty knows what dataset it belongs to, and
-otherwise it's just the huge list of files we're interested in for our work. All of the curation is done outside of sooty.
-
 The following properties are available via the \code{@} slot:
 \itemize{
-\item \code{n} the number of files (objects) comprising the dataset (get, not settable)
-\item \code{mindate} the minimum available date for the files
-\item \code{maxdate1} the maximum available date for the files
-\item \code{source1} the set of files (objects) belonging to this dataset (get, not settable)
+\item \code{id} a dataset label, see \code{\link[=available_datasets]{available_datasets()}} (gettable and settable)
+\item \code{n} the number of files (objects) comprising the dataset (get only)
+\item \code{mindate} the minimum available date for the files (get only)
+\item \code{maxdate} the maximum available date for the files (get only)
+\item \code{source} the set of files (objects) belonging to this dataset (get only)
 }
+
+By default sooty maintains a local cache of the catalogue used to populate these
+properties. Set \code{options("sooty.allow.cache" = FALSE)} to use only the bundled
+sysdata, or \code{options("sooty.cache.path" = tempdir())} to redirect the cache
+directory. See \code{\link[=sooty_cache_info]{sooty_cache_info()}} for details.
 }
 \note{
 This was originally called \code{dataset()} which usage has now been deprecated.
 }
 \examples{
+options("sooty.allow.cache" = FALSE)
 ## available dataset names
-\donttest{
-if (interactive()) {
- available_datasets()
-}
+available_datasets()
 ## set to one of those
-ds  <- datasource("ghrsst-tif")
-## access the 'ds@source' slot, files with 'date','source' (GDAL-readable)
-}
+ds <- datasource("ghrsst-tif")
 }

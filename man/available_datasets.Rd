@@ -11,10 +11,9 @@ character vector of available dataset ids for \code{datasource()}
 }
 \description{
 In \code{sooty_files()} the data source files are grouped by \code{Dataset}, this is the
-list of unique datasets, values that can be used in \verb{datasource(<name>)}.
+list of unique datasets, values that can be used in \code{datasource(id)}.
 }
 \examples{
-\donttest{
+options("sooty.allow.cache" = FALSE)
 available_datasets()
-}
 }

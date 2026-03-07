@@ -10,8 +10,25 @@ sooty_cache_info()
 A data frame (invisibly) with cache details.
 }
 \description{
-Show sooty cache status
+Reports the active cache configuration, including the effect of any options
+that have been set. See the Options section below for details.
 }
+\section{Options}{
+
+Two options control cache behaviour:
+\describe{
+\item{\code{sooty.allow.cache}}{logical, default \code{TRUE}. Set to \code{FALSE} to skip
+all disk I/O and use only the bundled sysdata. Suitable for examples,
+tests, and offline use: \code{options("sooty.allow.cache" = FALSE)}.}
+\item{\code{sooty.cache.path}}{path, default \code{tools::R_user_dir("sooty", "cache")}.
+Override the cache directory. Useful for CI or shared environments:
+\code{options("sooty.cache.path" = tempdir())}.}
+}
+}
+
 \examples{
+sooty_cache_info()
+
+options("sooty.allow.cache" = FALSE)
 sooty_cache_info()
 }

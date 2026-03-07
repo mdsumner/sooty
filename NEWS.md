@@ -1,3 +1,9 @@
+# sooty 0.6.1
+
+* Sooty cache is now never installed into user space during any
+document/test/build/install/check processes, thanks to CRAN. 
+
+
 # sooty 0.6.0
 
 * A file cache is now stored internally in the package, installed to user cache space as a file,
