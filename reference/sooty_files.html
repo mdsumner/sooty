@@ -18,7 +18,7 @@ object storage. This function retrieves the curated catalogue."><!-- mathjax -->
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sooty</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.1</span>
       </span>
     </div>
 
@@ -73,18 +73,22 @@ object storage. This function retrieves the curated catalogue.</p>
     <div id="details">
     <h2>Details</h2>
     <p>The returned curated data frame has columns 'date', 'source' which are the main
-useful fields, these describe the date of the data in the file, and its full URI (Uniform Resource Identifier) source on
-S3 object storage. There are also fields 'Bucket', 'Key', and 'protocol' from which 'source' is
-constructed.</p>
-<p>The original publisher URI can be reconstructed by replacing the value of 'protocol' in 'source'
-with 'https://'.</p>
-<p>The public object URI can be reconstructed by replacing the value of 'protocol' in 'source' with
-'https://projects.pawsey.org.au'.</p>
+useful fields, these describe the date of the data in the file, and its full URI
+(Uniform Resource Identifier) source on S3 object storage. There are also fields
+'Bucket', 'Key', and 'Protocol' from which 'source' is constructed.</p>
+<p>The original publisher URI can be reconstructed by replacing the value of 'Protocol'
+in 'source' with 'https://'.</p>
+<p>The public object URI can be reconstructed by replacing the value of 'Protocol' in
+'source' with 'https://projects.pawsey.org.au'.</p>
+<p>By default sooty maintains a local cache of the catalogue, refreshed once per session
+when internet is available. Set <code>options("sooty.allow.cache" = FALSE)</code> to suppress all
+disk I/O and use only the bundled sysdata, or <code>options("sooty.cache.path" = tempdir())</code>
+to redirect the cache directory. See <code><a href="sooty_cache_info.html">sooty_cache_info()</a></code> for details.</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># \donttest{</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"sooty.allow.cache"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sooty_files</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 232,798 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    date                source                Dataset Bucket Key   Protocol Host </span>
@@ -100,7 +104,6 @@ with 'https://'.</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1981-09-09 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1981-09-10 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 232,788 more rows</span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
 </code></pre></div>
     </div>
   </div>
