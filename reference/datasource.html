@@ -91,7 +91,7 @@ directory. See <code><a href="sooty_cache_info.html">sooty_cache_info()</a></cod
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"sooty.allow.cache"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"sooty.allow.cache"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="co">## available dataset names</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="available_datasets.html">available_datasets</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  [1] "BREMEN-SEAICE-SMOS-north"            </span>
@@ -120,6 +120,7 @@ directory. See <code><a href="sooty_cache_info.html">sooty_cache_info()</a></cod
 <span class="r-out co"><span class="r-pr">#&gt;</span> [24] "sealevel-vgosa-tif"                  </span>
 <span class="r-in"><span><span class="co">## set to one of those</span></span></span>
 <span class="r-in"><span><span class="va">ds</span> <span class="op">&lt;-</span> <span class="fu">datasource</span><span class="op">(</span><span class="st">"ghrsst-tif"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>

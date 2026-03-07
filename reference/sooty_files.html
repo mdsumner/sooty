@@ -88,7 +88,7 @@ to redirect the cache directory. See <code><a href="sooty_cache_info.html">sooty
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"sooty.allow.cache"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">op</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="st">"sooty.allow.cache"</span> <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu">sooty_files</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># A tibble: 232,798 × 7</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    date                source                Dataset Bucket Key   Protocol Host </span>
@@ -104,6 +104,7 @@ to redirect the cache directory. See <code><a href="sooty_cache_info.html">sooty
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;"> 9</span> 1981-09-09 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #BCBCBC;">10</span> 1981-09-10 <span style="color: #949494;">00:00:00</span> /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> <span style="color: #949494;"># ℹ 232,788 more rows</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span><span class="va">op</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
