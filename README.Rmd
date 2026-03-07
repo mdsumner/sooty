@@ -95,10 +95,11 @@ We can read from the datasets with a GDAL-ready package, such as terra. But note
 amsrfiles <- dataset("antarctica-amsr2-asi-s3125-tif")@source
 library(terra)
 
-(r <- rast(tail(amsrfiles$source, 1)))
+r <- rast(tail(amsrfiles$source, 1))
+dim(r); substr(crs(r), 0, 98); ext(r)
 r[r > 100] <- NA
 plot(r[[nlyr(r)]] * 1, main = format(max(icefiles$date)))
-ghrsst <- dataset("ghrsst-tif")
+ghrsst <- datasource("ghrsst-tif")
 sstfile <- ghrsst@source$source[match(max(icefiles$date), ghrsst@source$date)]
 sst <- rast(sprintf("vrt://%s?ovr=4", sstfile))
 ct <- as.contour(crop(sst, ext(-180, 180, -90, -40)))
