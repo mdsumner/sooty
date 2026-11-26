@@ -1,8 +1,6 @@
-## sooty 0.6.1
+## sooty 0.7.0
 
-New release, sooty 0.6.1 to fix (Additional) issues on CRAN related to 
-installing the file cache. Should never be installed now during any
-examples / document / test / build / install / check  processes. 
+New release, sooty 0.7.0 to restore the catalogue, which now comes from a GitHub release. 
 
 Thanks very much!
 
