@@ -60,3 +60,63 @@ test_that("cache redirects to tempdir when sooty.cache.path set", {
   expect_true(nrow(files) > 0)
   expect_true(file.exists(file.path(td, "idea-curated-objects.parquet")))
 })
+
+test_that("bundled catalogue is one file per date in each dataset", {
+  files <- sooty_files()
+  expect_false(anyDuplicated(files[c("Dataset", "date")]) > 0)
+  expect_true(all(grepl("^/vsicurl/https://[^/]+/[^/]+/.+", files$source)))
+  expect_false(anyNA(files$date))
+})
+
+test_that("a failed update leaves the cache as it was", {
+  td <- tempfile("sooty_cache_test")
+  withr::local_options(list("sooty.allow.cache" = TRUE, "sooty.cache.path" = td))
+  local_mocked_bindings(.remote_url = function() paste0("file://", tempfile()))
+  .seed_cache_from_sysdata()
+  before <- tools::md5sum(.cache_path())
+  expect_message(ok <- .download_to_cache(), "could not be updated")
+  expect_false(ok)
+  expect_identical(tools::md5sum(.cache_path()), before)
+  expect_identical(list.files(td), basename(.cache_path()))
+  expect_true(nrow(.read_parquet()) > 0)
+})
+
+test_that("an update that is not the catalogue is not used", {
+  td <- tempfile("sooty_cache_test")
+  withr::local_options(list("sooty.allow.cache" = TRUE, "sooty.cache.path" = td))
+  notit <- tempfile(fileext = ".parquet")
+  writeLines("<Error><Code>AccessDenied</Code></Error>", notit)
+  local_mocked_bindings(.remote_url = function() paste0("file://", notit))
+  .seed_cache_from_sysdata()
+  expect_message(ok <- .download_to_cache(), "could not be updated")
+  expect_false(ok)
+  expect_identical(nrow(.read_cache_file(.cache_path())), nrow(.sooty_stale_cache))
+})
+
+test_that("a good update replaces the cache", {
+  td <- tempfile("sooty_cache_test")
+  withr::local_options(list("sooty.allow.cache" = TRUE, "sooty.cache.path" = td))
+  newer <- tempfile(fileext = ".parquet")
+  arrow::write_parquet(.sooty_stale_cache[1:10, ], newer)
+  local_mocked_bindings(.remote_url = function() paste0("file://", newer))
+  .seed_cache_from_sysdata()
+  expect_true(.download_to_cache())
+  expect_identical(nrow(.read_cache_file(.cache_path())), 10L)
+})
+
+test_that("a cache older than the bundled catalogue is replaced, an unreadable one is not fatal", {
+  td <- tempfile("sooty_cache_test")
+  dir.create(td)
+  withr::local_options(list("sooty.allow.cache" = TRUE, "sooty.cache.path" = td))
+  arrow::write_parquet(.sooty_stale_cache[1:10, ], .cache_path())
+  Sys.setFileTime(.cache_path(), .sooty_stale_cache_built - 86400)
+  expect_identical(.seed_cache_from_sysdata(), .cache_path())
+  expect_identical(nrow(.read_cache_file(.cache_path())), nrow(.sooty_stale_cache))
+  ## the cache just written is current, it is not written again
+  expect_null(.seed_cache_from_sysdata())
+
+  writeLines("not parquet", .cache_path())
+  Sys.setFileTime(.cache_path(), Sys.time())
+  .sooty_cache$staleness_checked <- TRUE
+  expect_identical(nrow(.read_parquet()), nrow(.sooty_stale_cache))
+})

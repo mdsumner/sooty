@@ -1,10 +1,4 @@
 
-.fileobjects <- function() {
-  out <- .objects()
-  out[["fullname"]] <- sprintf("%s/%s/%s", out$Host, out$Bucket, out$Key)
-  out
-}
-
 .curated_files <- function(dataset) {
   files <- .curated_objects()
   if (!missing(dataset)) files <- files[files$Dataset == dataset, , drop = FALSE]
@@ -15,19 +9,22 @@
 
 #' Obtain object storage catalogues as a dataframe of file/object identifiers.
 #'
-#' The object (file) catalogue of available sources is stored in Parquet format on Pawsey
-#' object storage. This function retrieves the curated catalogue.
+#' The catalogue lists, for each dataset, one file per date in a public store: object
+#' storage on Pawsey (`projects.pawsey.org.au/aad-derived`) or Source Cooperative
+#' (`data.source.coop/ausantarctic`), or the publisher of the data (NOAA, NSIDC, Copernicus
+#' Marine, University of Bremen, Remote Sensing Systems). This function retrieves the catalogue.
 #'
 #' The returned curated data frame has columns 'date', 'source' which are the main
 #' useful fields, these describe the date of the data in the file, and its full URI
-#' (Uniform Resource Identifier) source on S3 object storage. There are also fields
-#' 'Bucket', 'Key', and 'Protocol' from which 'source' is constructed.
+#' (Uniform Resource Identifier) source, ready for GDAL. There are also fields
+#' 'Protocol', 'Host', 'Bucket', and 'Key' from which 'source' is constructed: 'Bucket' is
+#' the first part of the path at 'Host' and 'Key' the rest.
 #'
-#' The original publisher URI can be reconstructed by replacing the value of 'Protocol'
-#' in 'source' with 'https://'.
+#' The plain URL of a file is 'source' without the leading value of 'Protocol' and its "/".
 #'
-#' The public object URI can be reconstructed by replacing the value of 'Protocol' in
-#' 'source' with 'https://projects.pawsey.org.au'.
+#' Datasets whose files are GeoTIFF copies on Pawsey are an archive that ends in 2025
+#' (`oisst-tif`, the `sealevel-*-tif` family, daily and annual `esacci-oc-*`). The others
+#' are extended as their publishers add files.
 #'
 #' By default sooty maintains a local cache of the catalogue, refreshed once per session
 #' when internet is available. Set `options("sooty.allow.cache" = FALSE)` to suppress all

@@ -13,25 +13,25 @@ status](https://www.r-pkg.org/badges/version/sooty)](https://CRAN.R-project.org/
 The goal of sooty is to provide access to data of relevance to Southern
 Ocean research.
 
-To see what files we know about in object storage, use
+To see what files we know about in public stores, use
 
 ``` r
 library(sooty)
 (files <- sooty_files())
-#> # A tibble: 232,798 × 7
+#> # A tibble: 240,306 × 7
 #>    date                source                Dataset Bucket Key   Protocol Host 
 #>    <dttm>              <chr>                 <chr>   <chr>  <chr> <chr>    <chr>
-#>  1 1981-09-01 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  2 1981-09-02 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  3 1981-09-03 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  4 1981-09-04 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  5 1981-09-05 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  6 1981-09-06 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  7 1981-09-07 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  8 1981-09-08 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#>  9 1981-09-09 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#> 10 1981-09-10 00:00:00 /vsicurl/https://pro… oisst-… idea-… www.… /vsicurl http…
-#> # ℹ 232,788 more rows
+#>  1 2002-06-01 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  2 2002-06-02 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  3 2002-06-03 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  4 2002-06-04 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  5 2002-06-05 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  6 2002-06-06 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  7 2002-06-07 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  8 2002-06-08 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#>  9 2002-06-09 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#> 10 2002-06-10 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
+#> # ℹ 240,296 more rows
 ```
 
 The main columns of interest are `date` and `source` and `Dataset`, the
@@ -50,14 +50,14 @@ sooty_files() |>
 #> # A tibble: 24 × 4
 #>    Dataset                             earliest   latest         n
 #>    <chr>                               <date>     <date>     <int>
-#>  1 BREMEN-SEAICE-SMOS-north            2010-05-01 2025-08-24  5569
+#>  1 BREMEN-SEAICE-SMOS-north            2010-05-01 2026-11-24  6026
 #>  2 BREMEN-SEAICE-SMOS-south            2010-10-01 2016-05-03    12
-#>  3 NSIDC_SEAICE_PS_N25km               1978-10-26 2025-08-24 15448
-#>  4 NSIDC_SEAICE_PS_S25km               1978-10-26 2025-08-24 15448
-#>  5 SEALEVEL_GLO_PHY_L4                 1993-01-01 2025-08-25 11811
-#>  6 antarctica-amsr2-asi-s3125-tif      2012-07-02 2025-08-24  4791
-#>  7 ccmp-wind-product-v2                1993-01-02 2024-08-31 11552
-#>  8 esacci-oc-l3s-chlor-a-merged-5day   1997-09-03 2025-03-27  2019
+#>  3 NSIDC_SEAICE_PS_N25km               1978-10-25 2026-10-25 17531
+#>  4 NSIDC_SEAICE_PS_S25km               1978-10-25 2026-10-25 17531
+#>  5 SEALEVEL_GLO_PHY_L4                 1993-01-01 2026-11-26 12383
+#>  6 antarctica-amsr2-asi-s3125-tif      2012-07-02 2026-11-24  5248
+#>  7 ccmp-wind-product-v2                1993-01-02 2026-10-31 12343
+#>  8 esacci-oc-l3s-chlor-a-merged-5day   1997-09-03 2026-09-18  2127
 #>  9 esacci-oc-l3s-chlor-a-merged-annual 1997-09-01 2024-09-01    28
 #> 10 esacci-oc-l3s-chlor-a-merged-daily  1997-09-04 2025-03-31 10045
 #> # ℹ 14 more rows
@@ -65,20 +65,30 @@ sooty_files() |>
 
 ``` r
 library(terra)
-#> terra 1.8.97
+#> terra 1.9.50
 file <- files$source[which.max(files$date) ]
 print(file)
-#> [1] "/vsicurl/https://data.source.coop/ausantarctic/ghrsst-mur-v2/2025/08/29/20250829090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1_analysed_sst.tif"
+#> [1] "/vsicurl/https://s3.waw3-1.cloudferro.com/mdl-native-07/native/SEALEVEL_GLO_PHY_L4_NRT_008_046/cmems_obs-sl_glo_phy-ssh_nrt_allsat-l4-duacs-0.125deg_P1D_202506/2026/11/nrt_global_allsat_phy_l4_20261126_20261126.nc"
 
 
 rast(file)
-#> class       : SpatRaster 
-#> size        : 17999, 36000, 1  (nrow, ncol, nlyr)
-#> resolution  : 0.01, 0.01  (x, y)
-#> extent      : -179.995, 180.005, -89.995, 89.995  (xmin, xmax, ymin, ymax)
-#> coord. ref. : lon/lat WGS 84 (EPSG:4326) 
-#> source      : 20250829090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1_analysed_sst.tif 
-#> name        : 20250829090000-JPL-L4_GHRSST-S~GLOB-v02.0-fv04.1_analysed_sst
+#> Warning: [rast] no geotransform; using GDAL geolocation arrays (project/rectify
+#> to georeference)
+#> class       : SpatRaster
+#> size        : 1440, 2880, 10  (nrow, ncol, nlyr)
+#> resolution  : 0.125, 0.125  (x, y)
+#> extent      : -180, 180, -90, 90  (xmin, xmax, ymin, ymax)
+#> coord. ref. : +proj=longlat +a=6378136.3 +rf=298.257 +no_defs
+#> sources     : nrt_global_allsat_phy_l4_20261126_20261126.nc
+#> varnames    : adt (Absolute dynamic topography)
+#>               err_sla (Formal mapping error)
+#>               err_ugosa (Formal mapping error on zonal geostrophic velocity anomalies)
+#>               err_vgosa (Formal mapping error on meridional geostrophic velocity anomalies)
+#>               flag_ice (Ice Flag for a 15% criterion of ice concentration)
+#>               ...
+#> names       : adt, err_sla, err_ugosa, err_vgosa, flag_ice, sla, ...
+#> unit        :   m,       m,       m/s,       m/s,         ,   m, ...
+#> time (days) : 2026-11-26
 ```
 
 The available datasets can be found from the table.
@@ -86,34 +96,35 @@ The available datasets can be found from the table.
 ``` r
 dplyr::distinct(sooty_files(), Dataset)
 #> # A tibble: 24 × 1
-#>    Dataset                       
-#>    <chr>                         
-#>  1 oisst-avhrr-v02r01            
-#>  2 SEALEVEL_GLO_PHY_L4           
-#>  3 NSIDC_SEAICE_PS_S25km         
-#>  4 NSIDC_SEAICE_PS_N25km         
-#>  5 antarctica-amsr2-asi-s3125-tif
-#>  6 ghrsst-tif                    
-#>  7 ccmp-wind-product-v2          
-#>  8 BREMEN-SEAICE-SMOS-south      
-#>  9 BREMEN-SEAICE-SMOS-north      
-#> 10 oisst-tif                     
+#>    Dataset                          
+#>    <chr>                            
+#>  1 ghrsst-tif                       
+#>  2 oisst-avhrr-v02r01               
+#>  3 oisst-tif                        
+#>  4 antarctica-amsr2-asi-s3125-tif   
+#>  5 BREMEN-SEAICE-SMOS-north         
+#>  6 BREMEN-SEAICE-SMOS-south         
+#>  7 NSIDC_SEAICE_PS_N25km            
+#>  8 NSIDC_SEAICE_PS_S25km            
+#>  9 ccmp-wind-product-v2             
+#> 10 esacci-oc-l3s-chlor-a-merged-5day
 #> # ℹ 14 more rows
 ```
 
-There are data sets like the 25km resolution south polar stereographic
-sea ice concentration, available via the dataset identifier \`:
+There are data sets like the 3.125km resolution south polar
+stereographic sea ice concentration, available via the dataset
+identifier:
 
 ``` r
-icefiles <- sooty_files() |> dplyr::filter(Dataset == "NSIDC_SEAICE_PS_S25km")
+icefiles <- sooty_files() |> dplyr::filter(Dataset == "antarctica-amsr2-asi-s3125-tif")
 dplyr::glimpse(icefiles)
-#> Rows: 15,448
+#> Rows: 5,248
 #> Columns: 7
-#> $ date     <dttm> 1978-10-26, 1978-10-28, 1978-10-30, 1978-11-01, 1978-11-03, …
-#> $ source   <chr> "/vsicurl/https://projects.pawsey.org.au/idea-10.5067-mpyg15w…
-#> $ Dataset  <chr> "NSIDC_SEAICE_PS_S25km", "NSIDC_SEAICE_PS_S25km", "NSIDC_SEAI…
-#> $ Bucket   <chr> "idea-10.5067-mpyg15waa4wx", "idea-10.5067-mpyg15waa4wx", "id…
-#> $ Key      <chr> "n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978.10.26/NSIDC005…
+#> $ date     <dttm> 2012-07-02, 2012-07-03, 2012-07-04, 2012-07-05, 2012-07-06, …
+#> $ source   <chr> "/vsicurl/https://projects.pawsey.org.au/aad-derived/idea-ams…
+#> $ Dataset  <chr> "antarctica-amsr2-asi-s3125-tif", "antarctica-amsr2-asi-s3125…
+#> $ Bucket   <chr> "aad-derived", "aad-derived", "aad-derived", "aad-derived", "…
+#> $ Key      <chr> "idea-amsr2-asi-s3125/seaice.uni-bremen.de/data/amsr2/asi_day…
 #> $ Protocol <chr> "/vsicurl", "/vsicurl", "/vsicurl", "/vsicurl", "/vsicurl", "…
 #> $ Host     <chr> "https://projects.pawsey.org.au", "https://projects.pawsey.or…
 ```
@@ -122,22 +133,22 @@ You can immediately see what range of dates is available:
 
 ``` r
 range(icefiles$date)
-#> [1] "1978-10-26 UTC" "2025-08-24 UTC"
+#> [1] "2012-07-02 UTC" "2026-11-24 UTC"
 ```
 
 And, explore exactly what source files are available:
 
 ``` r
 
-range(diff(icefiles$date))  ## there are some gaps, it's every two days to start and some are missing
+range(diff(icefiles$date))  ## there are some gaps, some days are missing
 #> Time differences in days
-#> [1]  1 42
+#> [1] 1 5
 
 diff(range(icefiles$date))  ## the number of potential data days
-#> Time difference of 17104 days
+#> Time difference of 5258 days
 
 nrow(icefiles)  ## the actual number of data days
-#> [1] 15448
+#> [1] 5248
 ```
 
 This is a very experimental begin at replacing
@@ -149,10 +160,7 @@ But note that we need to set a configuration first, and we need to unset
 it after, this is WIP.
 
 ``` r
-amsrfiles <- dataset("antarctica-amsr2-asi-s3125-tif")@source
-#> Warning in dataset("antarctica-amsr2-asi-s3125-tif"): 'dataset' is deprecated.
-#> Use 'datasource' instead.
-#> See help("Deprecated")
+amsrfiles <- datasource("antarctica-amsr2-asi-s3125-tif")@source
 library(terra)
 
 r <- rast(tail(amsrfiles$source, 1))
@@ -169,11 +177,43 @@ ct <- as.contour(crop(sst, ext(-180, 180, -90, -40)))
 plot(project(ct, crs(r)), add = TRUE, col = "hotpink")
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
+<img src="man/figures/README-unnamed-chunk-2-1.png" alt="" width="100%" />
 
 That should be the state of the sea ice in the Southern Ocean at the
 latest available date, sea ice concentration from passive microwave at
 3.125km resolution, by the AWI artist sea ice group.
+
+## Where the files are, and what is current
+
+sooty began as a catalogue of object storage on the Pawsey
+Supercomputing Research Centre. Those buckets are no longer public, and
+since version 0.7.0 the catalogue points at where each file is public
+today.
+
+| Datasets                                                 | Files                                                                | Status                |
+|----------------------------------------------------------|----------------------------------------------------------------------|-----------------------|
+| `ghrsst-tif`                                             | [Source Cooperative, ausantarctic](https://source.coop/ausantarctic) | current               |
+| `oisst-avhrr-v02r01`                                     | NOAA open data bucket                                                | current               |
+| `SEALEVEL_GLO_PHY_L4`                                    | Copernicus Marine native files                                       | current               |
+| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km`         | NSIDC, as indexed by raad.virtualize                                 | current               |
+| `antarctica-amsr2-asi-s3125-tif`, `BREMEN-SEAICE-SMOS-*` | Pawsey to 2025-08, then University of Bremen                         | current               |
+| `ccmp-wind-product-v2`                                   | Remote Sensing Systems                                               | current               |
+| `esacci-oc-*` monthly and 5day                           | Pawsey                                                               | current               |
+| `esacci-oc-*` daily and annual                           | Pawsey                                                               | archive, ends 2025-03 |
+| `oisst-tif`, `sealevel-*-tif`                            | Pawsey                                                               | archive, ends 2025-05 |
+
+`NSIDC_SEAICE_PS_N25km` and `NSIDC_SEAICE_PS_S25km` are a different
+product from before, on the same grids: the NOAA/NSIDC climate data
+record (G02202 version 6, variable `cdr_seaice_conc`) in place of
+NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login.
+
+The archives are not extended. The work has moved to whole datasets that
+open as one array rather than a file per date: the virtual stores of
+[raad.virtualize](https://mdsumner.github.io/raad.virtualize/) on Source
+Cooperative (GHRSST, OISST, sea ice, ocean colour, bathymetry and more),
+and the Copernicus Marine Zarr stores that
+[cmemsarco](https://github.com/hypertidy/cmemsarco) lists (altimetry and
+every other Copernicus Marine product).
 
 ## About the columns in `sooty_files()`
 
@@ -185,54 +225,50 @@ ordered and unique by date(-time) and that they are exactly relatable
 spatially and (mostly, or usually also) by variable/s. The time series
 may not be regular or complete, but usually is.
 
-We retain the component parts of `source`, as `Bucket`, `Key`,
-`Protocol`, and `Host` as this is object storage and these are the
-separable parts of addressing objects in different ways, and we’ve
-reserved that for future usage. (We use `https://` protocol by default
-to avoid any required configurations). Get in touch if you have any
-questions about this.
+We retain the component parts of `source`, as `Protocol`, `Host`,
+`Bucket`, and `Key`: `Bucket` is the first part of the path at `Host`
+and `Key` is the rest. (We use `https://` by default to avoid any
+required configurations). Get in touch if you have any questions about
+this.
 
 ## S7 object control
 
-We have an in-progress class for dataset handling. Create a ‘dataset()’
-and set an id.
+We have an in-progress class for dataset handling. Create a
+‘datasource()’ and set an id.
 
 ``` r
-ds <- dataset()
-#> Warning in dataset(): 'dataset' is deprecated.
-#> Use 'datasource' instead.
-#> See help("Deprecated")
-ds@id <- "NSIDC_SEAICE_PS_S25km"
+ds <- datasource()
+ds@id <- "oisst-avhrr-v02r01"
 ds
 #> <sooty::dataset>
-#>  @ id     : chr "NSIDC_SEAICE_PS_S25km"
-#>  @ n      : int 15448
-#>  @ mindate: POSIXct[1:1], format: "1978-10-26"
-#>  @ maxdate: POSIXct[1:1], format: "2025-08-24"
-#>  @ source : tibble [15,448 × 7] (S3: tbl_df/tbl/data.frame)
-#>  $ date    : POSIXct[1:15448], format: "1978-10-26" "1978-10-28" ...
-#>  $ source  : chr [1:15448] "/vsicurl/https://projects.pawsey.org.au/idea-10.5067-mpyg15waa4wx/n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978"| __truncated__ "/vsicurl/https://projects.pawsey.org.au/idea-10.5067-mpyg15waa4wx/n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978"| __truncated__ "/vsicurl/https://projects.pawsey.org.au/idea-10.5067-mpyg15waa4wx/n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978"| __truncated__ "/vsicurl/https://projects.pawsey.org.au/idea-10.5067-mpyg15waa4wx/n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978"| __truncated__ ...
-#>  $ Dataset : chr [1:15448] "NSIDC_SEAICE_PS_S25km" "NSIDC_SEAICE_PS_S25km" "NSIDC_SEAICE_PS_S25km" "NSIDC_SEAICE_PS_S25km" ...
-#>  $ Bucket  : chr [1:15448] "idea-10.5067-mpyg15waa4wx" "idea-10.5067-mpyg15waa4wx" "idea-10.5067-mpyg15waa4wx" "idea-10.5067-mpyg15waa4wx" ...
-#>  $ Key     : chr [1:15448] "n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978.10.26/NSIDC0051_SEAICE_PS_S25km_19781026_v2.0.nc" "n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978.10.28/NSIDC0051_SEAICE_PS_S25km_19781028_v2.0.nc" "n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978.10.30/NSIDC0051_SEAICE_PS_S25km_19781030_v2.0.nc" "n5eil01u.ecs.nsidc.org/PM/NSIDC-0051.002/1978.11.01/NSIDC0051_SEAICE_PS_S25km_19781101_v2.0.nc" ...
-#>  $ Protocol: chr [1:15448] "/vsicurl" "/vsicurl" "/vsicurl" "/vsicurl" ...
-#>  $ Host    : chr [1:15448] "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" "https://projects.pawsey.org.au" ...
+#>  @ id     : chr "oisst-avhrr-v02r01"
+#>  @ n      : int 16515
+#>  @ mindate: POSIXct[1:1], format: "1981-09-01"
+#>  @ maxdate: POSIXct[1:1], format: "2026-11-18"
+#>  @ source : tibble [16,515 × 7] (S3: tbl_df/tbl/data.frame)
+#>  $ date    : POSIXct[1:16515], format: "1981-09-01" "1981-09-02" ...
+#>  $ source  : chr [1:16515] "/vsicurl/https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com/data/v2.1/avhrr/198109/oi"| __truncated__ "/vsicurl/https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com/data/v2.1/avhrr/198109/oi"| __truncated__ "/vsicurl/https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com/data/v2.1/avhrr/198109/oi"| __truncated__ "/vsicurl/https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com/data/v2.1/avhrr/198109/oi"| __truncated__ ...
+#>  $ Dataset : chr [1:16515] "oisst-avhrr-v02r01" "oisst-avhrr-v02r01" "oisst-avhrr-v02r01" "oisst-avhrr-v02r01" ...
+#>  $ Bucket  : chr [1:16515] "data" "data" "data" "data" ...
+#>  $ Key     : chr [1:16515] "v2.1/avhrr/198109/oisst-avhrr-v02r01.19810901.nc" "v2.1/avhrr/198109/oisst-avhrr-v02r01.19810902.nc" "v2.1/avhrr/198109/oisst-avhrr-v02r01.19810903.nc" "v2.1/avhrr/198109/oisst-avhrr-v02r01.19810904.nc" ...
+#>  $ Protocol: chr [1:16515] "/vsicurl" "/vsicurl" "/vsicurl" "/vsicurl" ...
+#>  $ Host    : chr [1:16515] "https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com" "https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com" "https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com" "https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com" ...
 
 ds@source
-#> # A tibble: 15,448 × 7
+#> # A tibble: 16,515 × 7
 #>    date                source                Dataset Bucket Key   Protocol Host 
 #>    <dttm>              <chr>                 <chr>   <chr>  <chr> <chr>    <chr>
-#>  1 1978-10-26 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  2 1978-10-28 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  3 1978-10-30 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  4 1978-11-01 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  5 1978-11-03 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  6 1978-11-05 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  7 1978-11-07 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  8 1978-11-09 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#>  9 1978-11-11 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#> 10 1978-11-13 00:00:00 /vsicurl/https://pro… NSIDC_… idea-… n5ei… /vsicurl http…
-#> # ℹ 15,438 more rows
+#>  1 1981-09-01 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  2 1981-09-02 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  3 1981-09-03 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  4 1981-09-04 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  5 1981-09-05 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  6 1981-09-06 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  7 1981-09-07 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  8 1981-09-08 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#>  9 1981-09-09 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#> 10 1981-09-10 00:00:00 /vsicurl/https://noa… oisst-… data   v2.1… /vsicurl http…
+#> # ℹ 16,505 more rows
 ```
 
 ## Code of Conduct
