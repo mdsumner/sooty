@@ -42,7 +42,7 @@
 * Status of user cache can be checked with new function `sooty_cache_info()` which returns information
  about the location, age, and size of the cache. 
 
-* The the non-curated catalogue is no longer exposed to exported functions. 
+* The non-curated catalogue is no longer exposed to exported functions. 
 
 # sooty 0.5.0
 

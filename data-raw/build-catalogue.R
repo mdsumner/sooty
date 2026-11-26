@@ -37,7 +37,7 @@ PAWSEY <- "https://projects.pawsey.org.au/aad-derived"
 SOURCECOOP <- "https://data.source.coop/ausantarctic"
 NOAA_OISST <- "https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com"
 ## the bucket of a CMEMS product's native files is the `native_url` column of
-## the cmemsarco catalog (hypertidy/cmemsarco)
+## the cmemsarco catalogue (hypertidy/cmemsarco)
 CMEMS_NATIVE <- "https://s3.waw3-1.cloudferro.com/mdl-native-07"
 BREMEN <- "https://data.seaice.uni-bremen.de"
 REMSS <- "https://data.remss.com"
