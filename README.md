@@ -190,17 +190,17 @@ Supercomputing Research Centre. Those buckets are no longer public, and
 since version 0.7.0 the catalogue points at where each file is public
 today.
 
-| Datasets                                                 | Files                                                                | Status                |
-|----------------------------------------------------------|----------------------------------------------------------------------|-----------------------|
-| `ghrsst-tif`                                             | [Source Cooperative, ausantarctic](https://source.coop/ausantarctic) | current               |
-| `oisst-avhrr-v02r01`                                     | NOAA open data bucket                                                | current               |
-| `SEALEVEL_GLO_PHY_L4`                                    | Copernicus Marine native files                                       | current               |
-| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km`         | NSIDC                                                                | current               |
-| `antarctica-amsr2-asi-s3125-tif`, `BREMEN-SEAICE-SMOS-*` | Pawsey to 2025-08, then University of Bremen                         | current               |
-| `ccmp-wind-product-v2`                                   | Remote Sensing Systems                                               | current               |
-| `esacci-oc-*` monthly and 5day                           | Pawsey                                                               | current               |
-| `esacci-oc-*` daily and annual                           | Pawsey                                                               | archive, ends 2025-03 |
-| `oisst-tif`, `sealevel-*-tif`                            | Pawsey                                                               | archive, ends 2025-05 |
+| Datasets | Files | Status |
+|----|----|----|
+| `ghrsst-tif` | [Source Cooperative, ausantarctic](https://source.coop/ausantarctic) | current |
+| `oisst-avhrr-v02r01` | NOAA open data bucket | current |
+| `SEALEVEL_GLO_PHY_L4` | Copernicus Marine native files | current |
+| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km` | NSIDC | current |
+| `antarctica-amsr2-asi-s3125-tif`, `BREMEN-SEAICE-SMOS-*` | Pawsey to 2025-08, then University of Bremen | current |
+| `ccmp-wind-product-v2` | Remote Sensing Systems | current |
+| `esacci-oc-*` monthly and 5day | Pawsey | current |
+| `esacci-oc-*` daily and annual | Pawsey | archive, ends 2025-03 |
+| `oisst-tif`, `sealevel-*-tif` | Pawsey | archive, ends 2025-05 |
 
 `NSIDC_SEAICE_PS_N25km` and `NSIDC_SEAICE_PS_S25km` are a different
 product from before, on the same grids: the NOAA/NSIDC climate data

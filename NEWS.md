@@ -28,6 +28,9 @@
 
 * The catalogue is built by `data-raw/build-catalogue.R`, from anonymous listings of the public stores.
 
+* sooty now declares that it needs R 3.5.0 or later, which the format of the bundled catalogue requires
+ (the packages it imports need a later R than that).
+
 # sooty 0.6.1
 
 * Sooty cache is now never installed into user space during any
@@ -42,7 +45,7 @@
 * Status of user cache can be checked with new function `sooty_cache_info()` which returns information
  about the location, age, and size of the cache. 
 
-* The the non-curated catalogue is no longer exposed to exported functions. 
+* The non-curated catalogue is no longer exposed to exported functions. 
 
 # sooty 0.5.0
 
