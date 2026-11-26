@@ -56,6 +56,7 @@
 <li><p><code>NSIDC_SEAICE_PS_N25km</code> and <code>NSIDC_SEAICE_PS_S25km</code> now list a different product on the same grids: the NOAA/NSIDC climate data record of sea ice concentration (G02202 version 6, variable <code>cdr_seaice_conc</code>, a fraction from 0 to 1), daily from 1978-10-25, read from NSIDC. They listed NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login. G02202 has a file for every day; the days whose file holds no concentration are left out (the longest run is 1987-12-03 to 1988-01-13), so a date in the list is a date with data (<a href="https://github.com/mdsumner/sooty/issues/3" class="external-link">#3</a>).</p></li>
 <li><p>A failed update of the catalogue no longer removes the local cache (which made the first <code><a href="../reference/sooty_files.html">sooty_files()</a></code> of a session fail). The cache is replaced only by a download that reads as the catalogue, a cache older than the catalogue bundled with the package is replaced by it, and the updated catalogue now comes from a release of the sooty repository.</p></li>
 <li><p>The catalogue is built by <code>data-raw/build-catalogue.R</code>, from anonymous listings of the public stores.</p></li>
+<li><p>sooty now declares that it needs R 3.5.0 or later, which the format of the bundled catalogue requires (the packages it imports need a later R than that).</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.1" id="sooty-061">sooty 0.6.1<small>2026-03-10</small><a class="anchor" aria-label="anchor" href="#sooty-061"></a></h2>
@@ -65,7 +66,7 @@
 <h2 class="page-header" data-toc-text="0.6.0" id="sooty-060">sooty 0.6.0<small>2026-03-03</small><a class="anchor" aria-label="anchor" href="#sooty-060"></a></h2>
 <ul><li><p>A file cache is now stored internally in the package, installed to user cache space as a file, and this is checked for staleness once per session and updated if internet access is available.</p></li>
 <li><p>Status of user cache can be checked with new function <code><a href="../reference/sooty_cache_info.html">sooty_cache_info()</a></code> which returns information about the location, age, and size of the cache.</p></li>
-<li><p>The the non-curated catalogue is no longer exposed to exported functions.</p></li>
+<li><p>The non-curated catalogue is no longer exposed to exported functions.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5.0" id="sooty-050">sooty 0.5.0<small>2025-05-22</small><a class="anchor" aria-label="anchor" href="#sooty-050"></a></h2>
