@@ -18,7 +18,7 @@ To see what files we know about in public stores, use
 ``` r
 library(sooty)
 (files <- sooty_files())
-#> # A tibble: 240,306 × 7
+#> # A tibble: 240,195 × 7
 #>    date                source                Dataset Bucket Key   Protocol Host 
 #>    <dttm>              <chr>                 <chr>   <chr>  <chr> <chr>    <chr>
 #>  1 2002-06-01 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
@@ -31,7 +31,7 @@ library(sooty)
 #>  8 2002-06-08 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
 #>  9 2002-06-09 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
 #> 10 2002-06-10 00:00:00 /vsicurl/https://dat… ghrsst… ausan… ghrs… /vsicurl http…
-#> # ℹ 240,296 more rows
+#> # ℹ 240,185 more rows
 ```
 
 The main columns of interest are `date` and `source` and `Dataset`, the
@@ -50,10 +50,10 @@ sooty_files() |>
 #> # A tibble: 24 × 4
 #>    Dataset                             earliest   latest         n
 #>    <chr>                               <date>     <date>     <int>
-#>  1 BREMEN-SEAICE-SMOS-north            2010-05-01 2026-11-24  6026
+#>  1 BREMEN-SEAICE-SMOS-north            2010-05-01 2026-11-25  6027
 #>  2 BREMEN-SEAICE-SMOS-south            2010-10-01 2016-05-03    12
-#>  3 NSIDC_SEAICE_PS_N25km               1978-10-25 2026-10-25 17531
-#>  4 NSIDC_SEAICE_PS_S25km               1978-10-25 2026-10-25 17531
+#>  3 NSIDC_SEAICE_PS_N25km               1978-10-25 2026-11-19 17461
+#>  4 NSIDC_SEAICE_PS_S25km               1978-10-25 2026-11-19 17489
 #>  5 SEALEVEL_GLO_PHY_L4                 1993-01-01 2026-11-26 12383
 #>  6 antarctica-amsr2-asi-s3125-tif      2012-07-02 2026-11-24  5248
 #>  7 ccmp-wind-product-v2                1993-01-02 2026-10-31 12343
@@ -195,7 +195,7 @@ today.
 | `ghrsst-tif`                                             | [Source Cooperative, ausantarctic](https://source.coop/ausantarctic) | current               |
 | `oisst-avhrr-v02r01`                                     | NOAA open data bucket                                                | current               |
 | `SEALEVEL_GLO_PHY_L4`                                    | Copernicus Marine native files                                       | current               |
-| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km`         | NSIDC, as indexed by raad.virtualize                                 | current               |
+| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km`         | NSIDC                                                                | current               |
 | `antarctica-amsr2-asi-s3125-tif`, `BREMEN-SEAICE-SMOS-*` | Pawsey to 2025-08, then University of Bremen                         | current               |
 | `ccmp-wind-product-v2`                                   | Remote Sensing Systems                                               | current               |
 | `esacci-oc-*` monthly and 5day                           | Pawsey                                                               | current               |
@@ -205,7 +205,9 @@ today.
 `NSIDC_SEAICE_PS_N25km` and `NSIDC_SEAICE_PS_S25km` are a different
 product from before, on the same grids: the NOAA/NSIDC climate data
 record (G02202 version 6, variable `cdr_seaice_conc`) in place of
-NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login.
+NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login. Days for
+which that record has no data are not listed (the longest run is
+1987-12-03 to 1988-01-13).
 
 The archives are not extended. The work has moved to whole datasets that
 open as one array rather than a file per date: the virtual stores of

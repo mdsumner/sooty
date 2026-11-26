@@ -19,14 +19,14 @@
 * `NSIDC_SEAICE_PS_N25km` and `NSIDC_SEAICE_PS_S25km` now list a different product on the same grids: the NOAA/NSIDC
  climate data record of sea ice concentration (G02202 version 6, variable `cdr_seaice_conc`, a fraction from 0 to 1),
  daily from 1978-10-25, read from NSIDC. They listed NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login.
- The file list is that of the raad.virtualize index of the product.
+ G02202 has a file for every day; the days whose file holds no concentration are left out (the longest run is
+ 1987-12-03 to 1988-01-13), so a date in the list is a date with data (#3).
 
 * A failed update of the catalogue no longer removes the local cache (which made the first `sooty_files()` of a session
  fail). The cache is replaced only by a download that reads as the catalogue, a cache older than the catalogue bundled
  with the package is replaced by it, and the updated catalogue now comes from a release of the sooty repository.
 
-* The catalogue is built by `data-raw/build-catalogue.R`, from anonymous listings of the public stores and from
- the indexes that raad.virtualize publishes.
+* The catalogue is built by `data-raw/build-catalogue.R`, from anonymous listings of the public stores.
 
 # sooty 0.6.1
 
