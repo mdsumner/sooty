@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sooty</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.6.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.7.0</span>
       </span>
     </div>
 
@@ -44,9 +44,19 @@
   <div class="col-md-9 contents">
     <div class="page-header">
       <h1 data-toc-skip>Changelog <small></small></h1>
-      <small>Source: <a href="https://github.com/mdsumner/sooty/blob/catalogue/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
+      <small>Source: <a href="https://github.com/mdsumner/sooty/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.7.0" id="sooty-070">sooty 0.7.0<a class="anchor" aria-label="anchor" href="#sooty-070"></a></h2>
+<ul><li><p>The catalogue works again. The Pawsey buckets it listed (and the bucket that held the catalogue itself) are no longer public, so every source failed. Each dataset now points at where its files are public today: the <code>aad-derived</code> bucket on Pawsey, Source Cooperative, or the publisher (NOAA, Copernicus Marine, University of Bremen, Remote Sensing Systems). Dataset identifiers and the columns of <code><a href="../reference/sooty_files.html">sooty_files()</a></code> are unchanged.</p></li>
+<li><p>These datasets are current again and are extended as their publishers add files: <code>ghrsst-tif</code>, <code>oisst-avhrr-v02r01</code>, <code>SEALEVEL_GLO_PHY_L4</code>, <code>NSIDC_SEAICE_PS_N25km</code>, <code>NSIDC_SEAICE_PS_S25km</code>, <code>antarctica-amsr2-asi-s3125-tif</code>, <code>BREMEN-SEAICE-SMOS-north</code>, <code>ccmp-wind-product-v2</code>, and the monthly and 5day <code>esacci-oc-l3s-chlor-a-merged-*</code>. The others are an archive that ends in 2025 (<code>oisst-tif</code>, the <code>sealevel-*-tif</code> family, daily and annual <code>esacci-oc-l3s-chlor-a-merged-*</code>). See the README for where to go next.</p></li>
+<li><p>Fixed <code>sealevel-sla-tif</code>, <code>sealevel-ugos-tif</code>, <code>sealevel-ugosa-tif</code>, <code>sealevel-vgos-tif</code> and <code>sealevel-vgosa-tif</code>, which listed the files of the error variables (<code>err_sla</code>, <code>err_ugosa</code>, <code>err_vgosa</code>) instead of their own.</p></li>
+<li><p><code>SEALEVEL_GLO_PHY_L4</code> is now the 0.125 degree product throughout (reprocessed, then near real time). It was 0.25 degree before 2024-11-20.</p></li>
+<li><p><code>NSIDC_SEAICE_PS_N25km</code> and <code>NSIDC_SEAICE_PS_S25km</code> now list a different product on the same grids: the NOAA/NSIDC climate data record of sea ice concentration (G02202 version 6, variable <code>cdr_seaice_conc</code>, a fraction from 0 to 1), daily from 1978-10-25, read from NSIDC. They listed NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login. The file list is that of the raad.virtualize index of the product.</p></li>
+<li><p>A failed update of the catalogue no longer removes the local cache (which made the first <code><a href="../reference/sooty_files.html">sooty_files()</a></code> of a session fail). The cache is replaced only by a download that reads as the catalogue, a cache older than the catalogue bundled with the package is replaced by it, and the updated catalogue now comes from a release of the sooty repository.</p></li>
+<li><p>The catalogue is built by <code>data-raw/build-catalogue.R</code>, from anonymous listings of the public stores and from the indexes that raad.virtualize publishes.</p></li>
+</ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.6.1" id="sooty-061">sooty 0.6.1<small>2026-03-10</small><a class="anchor" aria-label="anchor" href="#sooty-061"></a></h2>
 <ul><li>Sooty cache is now never installed into user space during any examples / document / test / build / install / check processes, thanks to CRAN.</li>
