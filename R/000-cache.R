@@ -12,10 +12,16 @@
   "https://github.com/mdsumner/sooty/releases/download/catalogue/idea-curated-objects.parquet"
 }
 
+# Read without memory mapping: on Windows a mapped file cannot be replaced
+# while the data read from it is still in use.
+#' @importFrom arrow read_parquet
+.read_cache_file <- function(path) {
+  arrow::read_parquet(path, mmap = FALSE)
+}
+
 # Fetch the catalogue beside the cache and replace the cache only with a file
 # that reads as the catalogue: a failed or partial download leaves the cache
 # as it was.
-#' @importFrom arrow read_parquet
 .download_to_cache <- function() {
   path <- .cache_path()
   dir.create(dirname(path), showWarnings = FALSE, recursive = TRUE)
@@ -23,7 +29,7 @@
   on.exit(unlink(tmp), add = TRUE)
   ok <- tryCatch({
     suppressWarnings(utils::download.file(.remote_url(), destfile = tmp, quiet = TRUE, mode = "wb"))
-    all(names(.sooty_stale_cache) %in% names(arrow::read_parquet(tmp, as_data_frame = FALSE)))
+    all(names(.sooty_stale_cache) %in% names(.read_cache_file(tmp)))
   }, error = function(e) FALSE)
   if (ok) {
     file.rename(tmp, path)
@@ -36,15 +42,19 @@
 # Seed user cache from sysdata if missing, or older than the bundled
 # catalogue (a cache left by an earlier version) — no internet required.
 # The file takes the time the bundled catalogue was built, so that the
-# staleness check still looks for a newer one.
+# staleness check still looks for a newer one. File systems keep times more
+# coarsely than R does, hence the two seconds of tolerance. A cache that
+# cannot be written is not an error, the bundled catalogue is used instead.
 #' @importFrom arrow write_parquet
 .seed_cache_from_sysdata <- function() {
   path <- .cache_path()
-  if (file.exists(path) && file.mtime(path) >= .sooty_stale_cache_built) return(invisible(NULL))
+  if (file.exists(path) && file.mtime(path) > .sooty_stale_cache_built - 2) return(invisible(NULL))
   dir.create(dirname(path), showWarnings = FALSE, recursive = TRUE)
-  arrow::write_parquet(.sooty_stale_cache, path)
-  Sys.setFileTime(path, .sooty_stale_cache_built)
-  invisible(path)
+  ok <- tryCatch({
+    arrow::write_parquet(.sooty_stale_cache, path)
+    Sys.setFileTime(path, .sooty_stale_cache_built)
+  }, error = function(e) FALSE)
+  if (isTRUE(ok)) invisible(path) else invisible(NULL)
 }
 
 # Once per session: update cache if stale and online
@@ -73,7 +83,7 @@
   .seed_cache_from_sysdata()
   .check_staleness()
   ## a cache that cannot be read is no reason to fail
-  tryCatch(tibble::as_tibble(arrow::read_parquet(.cache_path())),
+  tryCatch(tibble::as_tibble(.read_cache_file(.cache_path())),
            error = function(e) tibble::as_tibble(.sooty_stale_cache))
 }
 

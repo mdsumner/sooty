@@ -90,7 +90,7 @@ test_that("an update that is not the catalogue is not used", {
   .seed_cache_from_sysdata()
   expect_message(ok <- .download_to_cache(), "could not be updated")
   expect_false(ok)
-  expect_identical(nrow(arrow::read_parquet(.cache_path())), nrow(.sooty_stale_cache))
+  expect_identical(nrow(.read_cache_file(.cache_path())), nrow(.sooty_stale_cache))
 })
 
 test_that("a good update replaces the cache", {
@@ -101,7 +101,7 @@ test_that("a good update replaces the cache", {
   local_mocked_bindings(.remote_url = function() paste0("file://", newer))
   .seed_cache_from_sysdata()
   expect_true(.download_to_cache())
-  expect_identical(nrow(arrow::read_parquet(.cache_path())), 10L)
+  expect_identical(nrow(.read_cache_file(.cache_path())), 10L)
 })
 
 test_that("a cache older than the bundled catalogue is replaced, an unreadable one is not fatal", {
@@ -110,8 +110,10 @@ test_that("a cache older than the bundled catalogue is replaced, an unreadable o
   withr::local_options(list("sooty.allow.cache" = TRUE, "sooty.cache.path" = td))
   arrow::write_parquet(.sooty_stale_cache[1:10, ], .cache_path())
   Sys.setFileTime(.cache_path(), .sooty_stale_cache_built - 86400)
-  .seed_cache_from_sysdata()
-  expect_identical(nrow(arrow::read_parquet(.cache_path())), nrow(.sooty_stale_cache))
+  expect_identical(.seed_cache_from_sysdata(), .cache_path())
+  expect_identical(nrow(.read_cache_file(.cache_path())), nrow(.sooty_stale_cache))
+  ## the cache just written is current, it is not written again
+  expect_null(.seed_cache_from_sysdata())
 
   writeLines("not parquet", .cache_path())
   Sys.setFileTime(.cache_path(), Sys.time())
