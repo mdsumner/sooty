@@ -9,29 +9,41 @@
 }
 
 .remote_url <- function() {
-  "https://projects.pawsey.org.au/idea-objects/idea-curated-objects.parquet"
+  "https://github.com/mdsumner/sooty/releases/download/catalogue/idea-curated-objects.parquet"
 }
 
+# Fetch the catalogue beside the cache and replace the cache only with a file
+# that reads as the catalogue: a failed or partial download leaves the cache
+# as it was.
+#' @importFrom arrow read_parquet
 .download_to_cache <- function() {
   path <- .cache_path()
   dir.create(dirname(path), showWarnings = FALSE, recursive = TRUE)
-  tryCatch(
-    utils::download.file(.remote_url(), destfile = path, quiet = TRUE, mode = "wb"),
-    error = function(e) {
-      warning(sprintf("sooty: failed to update cache: %s", conditionMessage(e)), call. = FALSE)
-      invisible(NULL)
-    }
-  )
-  invisible(path)
+  tmp <- tempfile(tmpdir = dirname(path), fileext = ".parquet")
+  on.exit(unlink(tmp), add = TRUE)
+  ok <- tryCatch({
+    suppressWarnings(utils::download.file(.remote_url(), destfile = tmp, quiet = TRUE, mode = "wb"))
+    all(names(.sooty_stale_cache) %in% names(arrow::read_parquet(tmp, as_data_frame = FALSE)))
+  }, error = function(e) FALSE)
+  if (ok) {
+    file.rename(tmp, path)
+  } else {
+    message("sooty: the object catalogue could not be updated, using the local copy")
+  }
+  invisible(ok)
 }
 
-# Seed user cache from sysdata if missing — no internet required
+# Seed user cache from sysdata if missing, or older than the bundled
+# catalogue (a cache left by an earlier version) — no internet required.
+# The file takes the time the bundled catalogue was built, so that the
+# staleness check still looks for a newer one.
 #' @importFrom arrow write_parquet
 .seed_cache_from_sysdata <- function() {
   path <- .cache_path()
-  if (file.exists(path)) return(invisible(NULL))
+  if (file.exists(path) && file.mtime(path) >= .sooty_stale_cache_built) return(invisible(NULL))
   dir.create(dirname(path), showWarnings = FALSE, recursive = TRUE)
   arrow::write_parquet(.sooty_stale_cache, path)
+  Sys.setFileTime(path, .sooty_stale_cache_built)
   invisible(path)
 }
 
@@ -54,19 +66,15 @@
 }
 
 #' @importFrom tibble as_tibble
-#' @importFrom arrow read_parquet
 .read_parquet <- function() {
   if (isFALSE(getOption("sooty.allow.cache", default = TRUE))) {
-    return(.sooty_stale_cache)
+    return(tibble::as_tibble(.sooty_stale_cache))
   }
   .seed_cache_from_sysdata()
   .check_staleness()
-  tibble::as_tibble(arrow::read_parquet(.cache_path()))
-}
-
-.objects <- function() {
-  sourcefile <- "https://projects.pawsey.org.au/idea-objects/idea-objects.parquet"
-  tibble::as_tibble(arrow::read_parquet(sourcefile))
+  ## a cache that cannot be read is no reason to fail
+  tryCatch(tibble::as_tibble(arrow::read_parquet(.cache_path())),
+           error = function(e) tibble::as_tibble(.sooty_stale_cache))
 }
 
 .curated_objects <- function() {

@@ -26,7 +26,7 @@ knitr::opts_chunk$set(
 
 The goal of sooty is to provide access to data of relevance to Southern Ocean research. 
 
-To see what files we know about in object storage, use 
+To see what files we know about in public stores, use 
 
 ```{r sooty}
 library(sooty)
@@ -61,10 +61,10 @@ The available datasets can be found from the table.
 dplyr::distinct(sooty_files(), Dataset)
 ```
 
-There are data sets like the 25km resolution south polar stereographic sea ice concentration, available via the dataset identifier `: 
+There are data sets like the 3.125km resolution south polar stereographic sea ice concentration, available via the dataset identifier: 
 
 ```{r south}
-icefiles <- sooty_files() |> dplyr::filter(Dataset == "NSIDC_SEAICE_PS_S25km")
+icefiles <- sooty_files() |> dplyr::filter(Dataset == "antarctica-amsr2-asi-s3125-tif")
 dplyr::glimpse(icefiles)
 ```
 
@@ -79,7 +79,7 @@ And, explore exactly what source files are available:
 
 ```{r files}
 
-range(diff(icefiles$date))  ## there are some gaps, it's every two days to start and some are missing
+range(diff(icefiles$date))  ## there are some gaps, some days are missing
 
 diff(range(icefiles$date))  ## the number of potential data days
 
@@ -92,7 +92,7 @@ This is a very experimental begin at replacing [raadtools](https://github.com/Au
 We can read from the datasets with a GDAL-ready package, such as terra. But note that we need to set a configuration first, and we need to unset it after,  this is WIP. 
 
 ```{r}
-amsrfiles <- dataset("antarctica-amsr2-asi-s3125-tif")@source
+amsrfiles <- datasource("antarctica-amsr2-asi-s3125-tif")@source
 library(terra)
 
 r <- rast(tail(amsrfiles$source, 1))
@@ -108,19 +108,39 @@ plot(project(ct, crs(r)), add = TRUE, col = "hotpink")
 
 That should be the state of the sea ice in the Southern Ocean at the latest available date, sea ice concentration from passive microwave at 3.125km resolution, by the AWI artist sea ice group. 
 
+## Where the files are, and what is current
+
+sooty began as a catalogue of object storage on the Pawsey Supercomputing Research Centre. Those buckets are no longer public, and since version 0.7.0 the catalogue points at where each file is public today.
+
+| Datasets | Files | Status |
+|---|---|---|
+| `ghrsst-tif` | [Source Cooperative, ausantarctic](https://source.coop/ausantarctic) | current |
+| `oisst-avhrr-v02r01` | NOAA open data bucket | current |
+| `SEALEVEL_GLO_PHY_L4` | Copernicus Marine native files | current |
+| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km` | NSIDC, as indexed by raad.virtualize | current |
+| `antarctica-amsr2-asi-s3125-tif`, `BREMEN-SEAICE-SMOS-*` | Pawsey to 2025-08, then University of Bremen | current |
+| `ccmp-wind-product-v2` | Remote Sensing Systems | current |
+| `esacci-oc-*` monthly and 5day | Pawsey | current |
+| `esacci-oc-*` daily and annual | Pawsey | archive, ends 2025-03 |
+| `oisst-tif`, `sealevel-*-tif` | Pawsey | archive, ends 2025-05 |
+
+`NSIDC_SEAICE_PS_N25km` and `NSIDC_SEAICE_PS_S25km` are a different product from before, on the same grids: the NOAA/NSIDC climate data record (G02202 version 6, variable `cdr_seaice_conc`) in place of NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login.
+
+The archives are not extended. The work has moved to whole datasets that open as one array rather than a file per date: the virtual stores of [raad.virtualize](https://mdsumner.github.io/raad.virtualize/) on Source Cooperative (GHRSST, OISST, sea ice, ocean colour, bathymetry and more), and the Copernicus Marine Zarr stores that [cmemsarco](https://github.com/hypertidy/cmemsarco) lists (altimetry and every other Copernicus Marine product).
+
 ## About the columns in `sooty_files()`
 
 `Dataset` is the main grouping value, and files from different `Dataset`s are otherwise non-relatable, be it by file format, available variable/s, grid specification (spatial extent and resolution), or temporal organization.  We guarantee that within a Dataset, the files are ordered and unique by date(-time) and that they are  exactly relatable spatially and (mostly, or usually also) by variable/s. The time series may not be regular or complete, but usually is.
  
-We retain the component parts of `source`, as `Bucket`, `Key`, `Protocol`, and `Host` as this is object storage and these are the separable parts of addressing objects in different ways, and we've reserved that for future usage. (We use `https://` protocol by default to avoid any required configurations). Get in touch if you have any questions about this. 
+We retain the component parts of `source`, as `Protocol`, `Host`, `Bucket`, and `Key`: `Bucket` is the first part of the path at `Host` and `Key` is the rest. (We use `https://` by default to avoid any required configurations). Get in touch if you have any questions about this. 
 
 ## S7 object control
 
-We have an in-progress class for dataset handling. Create a 'dataset()' and set an id. 
+We have an in-progress class for dataset handling. Create a 'datasource()' and set an id. 
 
 ```{r object}
-ds <- dataset()
-ds@id <- "NSIDC_SEAICE_PS_S25km"
+ds <- datasource()
+ds@id <- "oisst-avhrr-v02r01"
 ds
 
 ds@source

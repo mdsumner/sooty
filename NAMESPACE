@@ -6,12 +6,16 @@ export(datasource)
 export(sooty_cache_info)
 export(sooty_files)
 if (getRversion() < "4.3.0") importFrom("S7", "@")
-importFrom(S7,class_POSIXct)
-importFrom(S7,class_character)
-importFrom(S7,class_data.frame)
-importFrom(S7,class_integer)
-importFrom(S7,new_class)
-importFrom(S7,new_property)
-importFrom(arrow,read_parquet)
-importFrom(arrow,write_parquet)
+importFrom(S7,
+  class_POSIXct,
+  class_character,
+  class_data.frame,
+  class_integer,
+  new_class,
+  new_property
+)
+importFrom(arrow,
+  read_parquet,
+  write_parquet
+)
 importFrom(tibble,as_tibble)
