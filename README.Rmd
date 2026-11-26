@@ -117,14 +117,14 @@ sooty began as a catalogue of object storage on the Pawsey Supercomputing Resear
 | `ghrsst-tif` | [Source Cooperative, ausantarctic](https://source.coop/ausantarctic) | current |
 | `oisst-avhrr-v02r01` | NOAA open data bucket | current |
 | `SEALEVEL_GLO_PHY_L4` | Copernicus Marine native files | current |
-| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km` | NSIDC, as indexed by raad.virtualize | current |
+| `NSIDC_SEAICE_PS_N25km`, `NSIDC_SEAICE_PS_S25km` | NSIDC | current |
 | `antarctica-amsr2-asi-s3125-tif`, `BREMEN-SEAICE-SMOS-*` | Pawsey to 2025-08, then University of Bremen | current |
 | `ccmp-wind-product-v2` | Remote Sensing Systems | current |
 | `esacci-oc-*` monthly and 5day | Pawsey | current |
 | `esacci-oc-*` daily and annual | Pawsey | archive, ends 2025-03 |
 | `oisst-tif`, `sealevel-*-tif` | Pawsey | archive, ends 2025-05 |
 
-`NSIDC_SEAICE_PS_N25km` and `NSIDC_SEAICE_PS_S25km` are a different product from before, on the same grids: the NOAA/NSIDC climate data record (G02202 version 6, variable `cdr_seaice_conc`) in place of NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login.
+`NSIDC_SEAICE_PS_N25km` and `NSIDC_SEAICE_PS_S25km` are a different product from before, on the same grids: the NOAA/NSIDC climate data record (G02202 version 6, variable `cdr_seaice_conc`) in place of NSIDC-0051 and NSIDC-0081, which NSIDC serves only to a login. Days for which that record has no data are not listed (the longest run is 1987-12-03 to 1988-01-13).
 
 The archives are not extended. The work has moved to whole datasets that open as one array rather than a file per date: the virtual stores of [raad.virtualize](https://mdsumner.github.io/raad.virtualize/) on Source Cooperative (GHRSST, OISST, sea ice, ocean colour, bathymetry and more), and the Copernicus Marine Zarr stores that [cmemsarco](https://github.com/hypertidy/cmemsarco) lists (altimetry and every other Copernicus Marine product).
 

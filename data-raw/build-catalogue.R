@@ -21,7 +21,6 @@
 ##
 ##  - archive: the frozen copies under aad-derived/ (Pawsey)
 ##  - live:    the publisher, or a store that is still fed
-##  - index:   the files a raad.virtualize store reads (its grist catalog)
 ##
 ## A dataset with both takes the archive first and the live source for later
 ## dates. `Bucket` and `Key` are the first path segment and the rest of the
@@ -31,18 +30,18 @@ suppressPackageStartupMessages({
   library(arrow)
   library(curl)
 })
+stopifnot(requireNamespace("terra", quietly = TRUE))  ## opens a few NSIDC files
 invisible(Sys.setlocale("LC_TIME", "C"))  ## English month names in Bremen paths
 
 PAWSEY <- "https://projects.pawsey.org.au/aad-derived"
 SOURCECOOP <- "https://data.source.coop/ausantarctic"
-## the indexes of raad.virtualize (drafts: this moves when they go to production)
-RV_INDEX <- "https://data.source.coop/ausantarctic/ausantarctic-scratch"
 NOAA_OISST <- "https://noaa-cdr-sea-surface-temp-optimum-interpolation-pds.s3.amazonaws.com"
 ## the bucket of a CMEMS product's native files is the `native_url` column of
 ## the cmemsarco catalog (hypertidy/cmemsarco)
 CMEMS_NATIVE <- "https://s3.waw3-1.cloudferro.com/mdl-native-07"
 BREMEN <- "https://data.seaice.uni-bremen.de"
 REMSS <- "https://data.remss.com"
+NSIDC <- "https://noaadata.apps.nsidc.org/NOAA/G02202_V6"
 
 ## listings ---------------------------------------------------------------
 
@@ -105,19 +104,6 @@ index_urls <- function(pages) {
     host <- sub("^(https?://[^/]+)/.*", "\\1", pages[i])
     ifelse(grepl("^/", href), paste0(host, href), paste0(pages[i], href))
   }))
-}
-
-## the files behind a raad.virtualize store, from its grist catalog (one row
-## per date and array, `source` the file). Following an index keeps a dataset
-## here on whichever copy raad.virtualize reads: the publisher's today, a
-## production copy later.
-index_sources <- function(store) {
-  f <- tempfile(fileext = ".parquet")
-  on.exit(unlink(f))
-  curl::curl_download(sprintf("%s/%s/grist/catalog.parquet", RV_INDEX, store), f)
-  urls <- unique(sub("^/vsicurl/", "", arrow::read_parquet(f, col_select = "source")$source))
-  message(sprintf("  %6d files    %s/%s", length(urls), RV_INDEX, store))
-  urls
 }
 
 ## catalogue rows -----------------------------------------------------------
@@ -198,12 +184,53 @@ for (hem in c("north", "south")) {
 
 ## sea ice, 25 km polar stereographic. These ids listed NSIDC-0051 and
 ## NSIDC-0081 (NASA Team), which NSIDC serves only to a login; they now list
-## the NOAA/NSIDC climate data record G02202 v6 on the same grids, the files
-## that raad.virtualize indexes (variable cdr_seaice_conc).
-message("reading raad.virtualize indexes")
+## the NOAA/NSIDC climate data record G02202 v6 on the same grids (variable
+## cdr_seaice_conc), from NSIDC.
+##
+## G02202 has a file for every day, and where the record has no data (the
+## longest run is 1987-12-03 to 1988-01-13) the file holds no concentration.
+## Those days are left out, as they had no file in the earlier products.
+## Most are placeholders of one size, so the listing finds them: a size held
+## on three or more days running. The days beside such a run are opened,
+## because a day without data can have a size of its own.
+nsidc_listing <- function(hem) {
+  years <- 1978:as.integer(format(Sys.Date(), "%Y"))
+  pages <- sprintf("%s/%s/daily/%d/", NSIDC, hem, years)
+  html <- fetch_all(pages)
+  if (anyNA(html[-length(html)])) stop("NSIDC listing incomplete: ", hem)
+  line <- grep('href="sic_[^"]+\\.nc"', unlist(strsplit(html[!is.na(html)], "\n")), value = TRUE)
+  file <- sub('.*href="(sic_[^"]+\\.nc)".*', "\\1", line)
+  d <- data.frame(url = sprintf("%s/%s/daily/%s/%s", NSIDC, hem, substr(sub(".*_([0-9]{8})_.*", "\\1", file), 1, 4), file),
+                  size = as.numeric(sub(".*[^0-9]([0-9]+)[^0-9]*$", "\\1", line)),
+                  stringsAsFactors = FALSE)
+  if (anyNA(d$size)) stop("NSIDC listing without sizes: ", hem)
+  d[order(basename(d$url), method = "radix"), ]
+}
+no_concentration <- function(url) {
+  Sys.setenv(GDAL_DISABLE_READDIR_ON_OPEN = "EMPTY_DIR")
+  all(is.na(terra::values(terra::rast(sprintf('NETCDF:"/vsicurl/%s":cdr_seaice_conc', url)))))
+}
+nsidc_urls <- function(hem) {
+  d <- nsidc_listing(hem)
+  run <- rle(d$size)
+  empty <- d$size %in% run$values[run$lengths >= 3]
+  opened <- integer()
+  repeat {
+    beside <- which(!empty & (c(FALSE, empty[-length(empty)]) | c(empty[-1], FALSE)))
+    beside <- setdiff(beside, opened)
+    if (!length(beside)) break
+    opened <- c(opened, beside)
+    empty[beside] <- vapply(d$url[beside], no_concentration, NA)
+  }
+  ## a guard: a change of the listing must not empty the dataset
+  if (mean(empty) > 0.02) stop("too many NSIDC files taken as empty: ", hem)
+  message(sprintf("  %6d files    %s/%s/daily (%d without data left out)", sum(!empty), NSIDC, hem, sum(empty)))
+  d$url[!empty]
+}
+message("listing NSIDC")
 for (hem in c("north", "south")) {
   id <- sprintf("NSIDC_SEAICE_PS_%s25km", toupper(substr(hem, 1, 1)))
-  catalogue[[id]] <- dataset(id, index_sources(sprintf("seaice/g02202-v6-daily-%s", hem)), "/G02202_V6/.*\\.nc$")
+  catalogue[[id]] <- dataset(id, nsidc_urls(hem), "/G02202_V6/.*\\.nc$")
 }
 
 ## wind, Remote Sensing Systems CCMP v3.1

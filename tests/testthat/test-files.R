@@ -68,6 +68,15 @@ test_that("bundled catalogue is one file per date in each dataset", {
   expect_false(anyNA(files$date))
 })
 
+test_that("NSIDC datasets list no date in the longest run of days without data", {
+  files <- sooty_files()
+  for (id in c("NSIDC_SEAICE_PS_N25km", "NSIDC_SEAICE_PS_S25km")) {
+    date <- as.Date(files$date[files$Dataset == id])
+    expect_true(length(date) > 17000)
+    expect_false(any(date >= as.Date("1987-12-03") & date <= as.Date("1988-01-13")))
+  }
+})
+
 test_that("a failed update leaves the cache as it was", {
   td <- tempfile("sooty_cache_test")
   withr::local_options(list("sooty.allow.cache" = TRUE, "sooty.cache.path" = td))
